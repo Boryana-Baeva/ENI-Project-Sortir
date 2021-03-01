@@ -1,0 +1,33 @@
+{% extends 'default.html.twig' %}
+{%  block main %}
+
+    <h1>Mon Profil</h1>
+
+    <div id="showProfile">
+       <div id="pseudo">
+           <label > Pseudo:</label>
+           <p>{{ user.username }}</p>
+       </div>
+        <div id="prenom">
+            <label > Prénom:</label>
+            <p>{{ user.firstName }}</p>
+        </div>
+        <div id="nom">
+            <label > Nom:</label>
+            <p>{{ user.lastName}}</p>
+        </div>
+        <div id="email">
+            <label > Email:</label>
+            <p>{{ user.email }}</p>
+        </div>
+        <div id="campus">
+            <label > Campus:</label>
+            <p>{{ user.campus.name }}</p>
+        </div>
+
+        <button type="button" class="btn btn-primary"><a href="#">Modifier</a></button>
+        <button type="button" class="btn btn-secondary"><a href="{{ path('home') }}">Back</a></button>
+    </div>
+
+{% endblock %}
+{% block title %}{{ parent()}} Profile{% endblock %}

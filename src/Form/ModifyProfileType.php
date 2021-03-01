@@ -3,33 +3,44 @@
 namespace App\Form;
 
 use App\Entity\User;
+use Doctrine\DBAL\Types\TextType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Validator\Constraints\IsTrue;
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
 
-class RegistrationFormType extends AbstractType
+class ModifyProfileType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('username')
-            ->add('lastName')
-            ->add('firstName')
-            ->add('campus', EntityType::class,[
-                'class'=> 'App\Entity\Campus',
-                'choice_label'=>'name'
+            ->add('username', TextType::class, [
+                'readonly' => true,
+                'required' => false
             ])
-            ->add('phoneNumber')
-            ->add('email', EmailType::class)
-            ->add('plainPassword', RepeatedType::class, [
+            ->add('firstName', TextType::class, [
+                'required'=> false
+            ])
+            ->add('lastName', TextType::class, [
+                'required'=> false
+            ])
+            ->add('phoneNumber', TextType::class, [
+                'required'=> false
+            ])
+            ->add('email', EmailType::class,[
+                'readonly'=> true,
+                'required'=> false
+            ])
+            ->add('CurrentPassword', PasswordType::class ,[
+                'label'=> "Mot de passe",
+                'required'=> false
+                ])
+            ->add('NewPassword', RepeatedType::class , [
                 'type' => PasswordType::class,
                 'mapped' => false,
                 'constraints' => [
@@ -45,16 +56,13 @@ class RegistrationFormType extends AbstractType
                 ],
                 'invalid_message' => 'The password fields must match.',
                 'required' => true,
-                'first_options' => array('label'=> 'Password'),
-                'second_options' => array('label'=> 'Repeat Password'),
+                'first_options' => array('label'=> 'New Password'),
+                'second_options' => array('label'=> 'Repeat New Password'),
             ])
-            ->add('agreeTerms', CheckboxType::class, [
-                'mapped' => false,
-                'constraints' => [
-                    new IsTrue([
-                        'message' => 'You should agree to our terms.',
-                    ]),
-                ],
+            ->add('campus', EntityType::class, [
+                'class'=>'App\Entity\Campus',
+                'choice_label'=>'name',
+                'required'=>false
             ])
         ;
     }

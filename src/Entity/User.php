@@ -20,7 +20,7 @@ class User implements UserInterface
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=50)
+     * @ORM\Column(type="string", length=50, unique = true)
      */
     private $username;
 
@@ -59,6 +59,11 @@ class User implements UserInterface
      */
     private $active;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Campus")
+     */
+    private $campus;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -86,6 +91,22 @@ class User implements UserInterface
         $this->firstName = $firstName;
 
         return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCampus()
+    {
+        return $this -> campus;
+    }
+
+    /**
+     * @param mixed $campus
+     */
+    public function setCampus($campus): void
+    {
+        $this -> campus = $campus;
     }
 
     public function getLastName(): ?string
