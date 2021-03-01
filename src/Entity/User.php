@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
- * @ORM\Table(name="")
+ * @ORM\Table(name="app_user")
  * @ORM\Entity(repositoryClass=UserRepository::class)
  */
 class User implements UserInterface
