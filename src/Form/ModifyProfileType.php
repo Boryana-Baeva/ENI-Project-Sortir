@@ -3,7 +3,7 @@
 namespace App\Form;
 
 use App\Entity\User;
-use Doctrine\DBAL\Types\TextType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
@@ -20,7 +20,7 @@ class ModifyProfileType extends AbstractType
     {
         $builder
             ->add('username', TextType::class, [
-                'readonly' => true,
+                'disabled' => true,
                 'required' => false
             ])
             ->add('firstName', TextType::class, [
@@ -33,20 +33,13 @@ class ModifyProfileType extends AbstractType
                 'required'=> false
             ])
             ->add('email', EmailType::class,[
-                'readonly'=> true,
+                'disabled'=> true,
                 'required'=> false
             ])
-            ->add('CurrentPassword', PasswordType::class ,[
-                'label'=> "Mot de passe",
-                'required'=> false
-                ])
-            ->add('NewPassword', RepeatedType::class , [
+            ->add('newPassword', RepeatedType::class , [
                 'type' => PasswordType::class,
                 'mapped' => false,
                 'constraints' => [
-                    new NotBlank([
-                        'message' => 'Please enter a password',
-                    ]),
                     new Length([
                         'min' => 6,
                         'minMessage' => 'Your password should be at least {{ limit }} characters',
@@ -55,7 +48,7 @@ class ModifyProfileType extends AbstractType
                     ]),
                 ],
                 'invalid_message' => 'The password fields must match.',
-                'required' => true,
+                'required' => false,
                 'first_options' => array('label'=> 'New Password'),
                 'second_options' => array('label'=> 'Repeat New Password'),
             ])

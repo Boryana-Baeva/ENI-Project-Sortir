@@ -25,7 +25,9 @@
             <p>{{ user.campus.name }}</p>
         </div>
 
-        <button type="button" class="btn btn-primary"><a href="#">Modifier</a></button>
+        {% if user.id == app.user.id %}
+        <button type="button" class="btn btn-primary"><a href="{{ path('user_modify', {id: user.id}) }}">Modifier</a></button>
+        {% endif %}
         <button type="button" class="btn btn-secondary"><a href="{{ path('home') }}">Back</a></button>
     </div>
 
