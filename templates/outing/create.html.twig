@@ -4,9 +4,9 @@
     <div class="form">
         {{ form_start(outingForm) }}
         {{ form_row(outingForm.name) }}
-        {{ form_row(outingForm.startDateTime | date('d/m/Y H:i')) }}
+        {{ form_row(outingForm.startDateTime) }}
         {{ form_row(outingForm.duration) }}
-        {{ form_row(outingForm.entryDeadline | date('d/m/Y')) }}
+        {{ form_row(outingForm.entryDeadline) }}
         {{ form_row(outingForm.maxNumberEntries) }}
         {{ form_row(outingForm.description) }}
         {{ form_row(outingForm.campus) }}
@@ -46,9 +46,9 @@
         {{ form_row(outingForm.zipCode) }}
         {{ form_row(outingForm.city) }}
         {{ form_row(outingForm.latitude) }}
-        {{ form_row(outingForm.longitude) }}
+        {{ form_row(outingForm.longitude) }}#}
         <button type="submit">Enregistrer</button>
-        {{ form_end(outingForm) }} #}
+        {{ form_end(outingForm) }}
     </div>
 {% endblock %}
 

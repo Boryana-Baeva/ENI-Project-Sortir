@@ -40,7 +40,7 @@ class OutingType extends AbstractType
                 'label'=> 'Nombre de places'
             ])
             ->add('description', TextType::class, [
-                'label'=> 'Nombres de places'
+                'label'=> 'Description'
             ])
 
             ->add('place', EntityType::class, [

@@ -65,14 +65,17 @@ class OutingController extends AbstractController
             $stateRepo = $em->getRepository(State::class);
             $stateCreated= $stateRepo->findOneBy(['label'=>'created']);
             $outing->setState($stateCreated);
-
+            dump($outing);
+            $em->persist($outing);
+            $em->flush();
             //todo:rediriger vers la liste des sorties
             return $this->redirectToRoute('home');
 
         }
 
         return $this->render('outing/create.html.twig', [
-            'outingForm' => $outingForm->createView()
+            'outingForm' => $outingForm->createView(),
+            'placeForm' => $placeForm->createView(),
         ]);
 
 
