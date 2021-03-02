@@ -20,11 +20,6 @@ class PlaceType extends AbstractType
             ->add('street', TextType::class, [
                 'label'=>'rue',
             ])
-            /*->add('zipCode', EntityType::class, [
-                'class'=> 'App\Entity\City',
-                'choice_label'=>'zipCode',
-                'label'=>'Code Postal',
-            ])*/
             ->add('city', EntityType::class, [
                 'class'=> 'App\Entity\City',
                 'choice_label'=>'name',
@@ -44,6 +39,7 @@ class PlaceType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Place::class,
+
         ]);
     }
 }

@@ -31,24 +31,22 @@ class OutingType extends AbstractType
                 'label'=> 'Durée'
             ])
             ->add('entryDeadline',DateTimeType::class,[
-        'placeholder' => [
-            'year' => 'Year', 'month' => 'Month', 'day' => 'Day'
-        ],
-        'label' => 'Date limite d\'inscription'
-    ])
+                'placeholder' => [
+                'year' => 'Year', 'month' => 'Month', 'day' => 'Day'
+                ],
+                'label' => 'Date limite d\'inscription'
+            ])
             ->add('maxNumberEntries', IntegerType::class , [
                 'label'=> 'Nombre de places'
             ])
             ->add('description', TextType::class, [
                 'label'=> 'Description'
             ])
-
             ->add('place', EntityType::class, [
                 'class'=>'App\Entity\Place',
                 'label'=>'Lieu',
                 'choice_label'=> 'name'
             ])
-
             ->add('campus',EntityType::class, [
                 'class'=>'App\Entity\Campus',
                 'label'=>'Campus',
@@ -61,6 +59,7 @@ class OutingType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Outing::class,
+
         ]);
     }
 }

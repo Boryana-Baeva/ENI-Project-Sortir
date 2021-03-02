@@ -25,14 +25,10 @@ class OutingController extends AbstractController
 
         $outing = new Outing();
         $place = new Place();
-
-
         $outingForm = $this->createForm(OutingType::class, $outing);
         $placeForm = $this->createForm(PlaceType::class, $place);
 
         $outingForm->handleRequest($request);
-        $placeForm->handleRequest($request);
-
 
         if($outingForm->isSubmitted() && $outingForm->isValid())
         {
@@ -41,43 +37,22 @@ class OutingController extends AbstractController
                 $em->persist($place);
                 $em->flush();
             }
-           /* $namePlace = $outingForm->get('place')->getData();
-            $street = $outingForm->get('street')->getData();
-            $latitude = $outingForm->get('latitude')->getData();
-            $longitude = $outingForm->get('longitude')->getData();
-            $nameCity = $outingForm->get('city')->getData();
 
-            $place = new Place();
-            $place->setName($namePlace);
-            $place->setStreet($street);
-            $place->setLatitude($latitude);
-            $place->setLongitude($longitude);
-
-            $cityRepo = $em->getRepository(City::class);
-            $city = $cityRepo->findOneBy(['name'=>$nameCity]);
-
-            $place->setCity($city);
-
-            $outing->setPlace($place)*/;
-            $outing->setCampus($this->getUser()->getCampus());
             $outing->setOrganizer($this->getUser());
 
             $stateRepo = $em->getRepository(State::class);
             $stateCreated= $stateRepo->findOneBy(['label'=>'created']);
             $outing->setState($stateCreated);
-            dump($outing);
+
             $em->persist($outing);
             $em->flush();
             //todo:rediriger vers la liste des sorties
             return $this->redirectToRoute('home');
-
         }
 
         return $this->render('outing/create.html.twig', [
             'outingForm' => $outingForm->createView(),
             'placeForm' => $placeForm->createView(),
         ]);
-
-
     }
 }
