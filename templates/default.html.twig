@@ -11,7 +11,27 @@
     <title>{% block title %}Sortir{% endblock %}</title>
 </head>
 <body>
-
+    {% block navbar %}
+        <header>
+            <nav id="navbar" class="navbar navbar-expand">
+                <div class="collapse navbar-collapse">
+                    <ul class="navbar-nav">
+                        <li class="nav-item"><a class="nav-link" href="{{ path('home') }}">Accueil</a></li>
+                        {% if (is_granted('IS_AUTHENTICATED_REMEMBERED')) %}
+                            {% if is_granted('ROLE_ADMIN') %}
+                                <li class="nav-item"><a class="nav-link" href="">Villes</a></li>
+                                <li class="nav-item"><a class="nav-link" href="">Campus</a></li>
+                            {% endif %}
+                            <li class="nav-item"><a class="nav-link" href="{{ path('user_profile', {id: app.user.id}) }}">Mon profil</a></li>
+                            <li class="nav-item"><a class="nav-link" href="{{ path('app_logout') }}">Se déconnecter</a></li>
+                        {% else %}
+                            <li class="nav-item"><a class="nav-link" href="{{ path('app_login') }}">Se connecter</a></li>
+                        {% endif %}
+                    </ul>
+                </div>
+            </nav>
+        </header>
+    {% endblock %}
     {% block main %}
 
     {% endblock %}

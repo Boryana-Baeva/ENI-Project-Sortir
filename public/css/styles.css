@@ -1,12 +1,17 @@
-a {
+.btn a {
     text-decoration: none;
     color: #F5F5F5;
 }
-a:visited{
+.btn a:visited{
     color: #F5F5F5;
 }
 
-a:hover{
+.btn a:hover{
     text-decoration: none;
     color: #F5F5F5;
+}
+
+.navbar-nav
+{
+    justify-content: space-between;
 }

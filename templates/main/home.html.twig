@@ -1,7 +1,14 @@
 {% extends 'default.html.twig' %}
 
-{% block body %}
-{# Comment #}
+{% block main %}
+    <div>
+        <div id="dateDuJour">
+            <h5>Date du jour: {{ "now" | date('d/m/Y') }} </h5>
+        </div>
+        <div id="participant">
+            <h5>Participant: {{ app.user.username }} </h5>
+        </div>
+    </div>
 {% endblock %}
 
 {% block title %}
