@@ -27,6 +27,7 @@ class Place
      */
     private $street;
 
+
     /**
      * @ORM\Column(type="float", nullable=true)
      */
