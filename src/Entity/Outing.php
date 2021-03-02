@@ -156,12 +156,12 @@ class Outing
         return $this;
     }
 
-    public function getState(): ?string
+    public function getState(): State
     {
         return $this->state;
     }
 
-    public function setState(?string $state): self
+    public function setState(State $state): self
     {
         $this->state = $state;
 
