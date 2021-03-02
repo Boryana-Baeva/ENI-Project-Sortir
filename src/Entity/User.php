@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
 
@@ -12,6 +13,13 @@ use Symfony\Component\Security\Core\User\UserInterface;
  */
 class User implements UserInterface
 {
+
+    public function __construct()
+    {
+        $this->outingsSubscribed = new ArrayCollection();
+        $this->outingsOrganized = new ArrayCollection();
+    }
+
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
@@ -63,6 +71,16 @@ class User implements UserInterface
      * @ORM\ManyToOne(targetEntity="App\Entity\Campus")
      */
     private $campus;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Outing", inversedBy="participants")
+     */
+    private $outingsSubscribed;
+
+    /**
+     * @ORM\OneToMany (targetEntity="App\Entity\Outing", mappedBy="organizer")
+     */
+    private $outingsOrganized;
 
     public function getId(): ?int
     {
@@ -180,6 +198,40 @@ class User implements UserInterface
 
         return $this;
     }
+
+    /**
+     * @return ArrayCollection
+     */
+    public function getOutingsSubscribed(): ArrayCollection
+    {
+        return $this->outingsSubscribed;
+    }
+
+    /**
+     * @param ArrayCollection $outingsSubscribed
+     */
+    public function setOutingsSubscribed(ArrayCollection $outingsSubscribed): void
+    {
+        $this->outingsSubscribed = $outingsSubscribed;
+    }
+
+    /**
+     * @return ArrayCollection
+     */
+    public function getOutingsOrganized(): ArrayCollection
+    {
+        return $this->outingsOrganized;
+    }
+
+    /**
+     * @param ArrayCollection $outingsOrganized
+     */
+    public function setOutingsOrganized(ArrayCollection $outingsOrganized): void
+    {
+        $this->outingsOrganized = $outingsOrganized;
+    }
+
+
 
     public function getRoles()
     {
