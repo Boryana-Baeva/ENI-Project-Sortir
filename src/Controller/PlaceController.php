@@ -12,6 +12,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class PlaceController extends AbstractController
 {
+
     /**
      * @Route("/place/add", name="place_add")
      */

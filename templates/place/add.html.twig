@@ -1,22 +1,29 @@
-<div class="container">
+{# <div class="container">
     <div class="row">
-        <button type="button" class="btn btn-success" data-toggle="modal" data-target="#myModal">+</button>
+        <button type="button" class="btn btn-success" data-toggle="modal" data-target="#add-modal">+</button>
         <div class="col-md-12">
-            <div class="modal fade" id="myModal">
+            <div  class="modal fade" id="add-modal" role="dialog">
                 <div class="modal-dialog">
                     <div class="modal-content">
-                        {{ form_start(placeForm) }}
+
                         <div class="modal-header">
-                            <h4 class="modal-title">Add a Place </h4>
+
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                             </button>
+
+                            <h4 class="modal-title">Add a Place </h4>
+
                         </div>
+
+                        {{ form_start(placeForm) }}
+
                         <div class="modal-body">
+
                             {{ form_widget(placeForm) }}
                         </div>
                         <div class="modal-footer">
-                            <button type="submit">Ajouter</button>
+                            <input type="submit" class="btn btn-success" value="Ajouter">
                             <input class="btn btn-default" value="Close">
                         </div>
                         {{ form_end(placeForm) }}
@@ -25,4 +32,32 @@
             </div>
         </div>
     </div>
+</div> #}
+
+<!-- Button trigger modal -->
+<button type="button" class="btn btn-success" data-toggle="modal" data-target="#exampleModal">+
+</button>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Add a Place</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            {{ form_start(placeForm) }}
+            <div class="modal-body">
+                {{ form_widget(placeForm) }}
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-success" >Add</button>
+            </div>
+            {{ form_end(placeForm) }}
+        </div>
+    </div>
 </div>
+
