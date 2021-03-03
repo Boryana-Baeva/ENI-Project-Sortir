@@ -4,6 +4,7 @@ namespace App\Form;
 
 use App\Entity\Outing;
 
+use Doctrine\ORM\EntityRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
@@ -40,17 +41,23 @@ class OutingType extends AbstractType
                 'label'=> 'Nombre de places'
             ])
             ->add('description', TextType::class, [
-                'label'=> 'Description'
+                'label'=> 'Description',
+                'required' => false
             ])
             ->add('place', EntityType::class, [
                 'class'=>'App\Entity\Place',
                 'label'=>'Lieu',
-                'choice_label'=> 'name'
+                'choice_label'=> 'name',
+                'query_builder' => function (EntityRepository $er) {
+                    return $er->createQueryBuilder('p')
+                        ->orderBy('p.addDate', 'DESC');
+                },
             ])
             ->add('campus',EntityType::class, [
                 'class'=>'App\Entity\Campus',
                 'label'=>'Campus',
-                'choice_label'=> 'name'
+                'choice_label'=> 'name',
+                'disabled'=> true
             ])
         ;
     }

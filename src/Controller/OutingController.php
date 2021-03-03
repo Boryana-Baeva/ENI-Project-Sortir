@@ -27,7 +27,9 @@ class OutingController extends AbstractController
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_REMEMBERED');
 
         $outing = new Outing();
+        $outing->setCampus($this->getUser()->getCampus());
         $place = new Place();
+        $place->setAddDate(new \DateTime());
         $outingForm = $this->createForm(OutingType::class, $outing);
         $placeForm = $this->createForm(PlaceType::class, $place);
 
@@ -41,7 +43,6 @@ class OutingController extends AbstractController
         }
         else if($outingForm->isSubmitted() && $outingForm->isValid())
         {
-
             $outing->setOrganizer($this->getUser());
 
             $stateRepo = $em->getRepository(State::class);

@@ -43,6 +43,10 @@ class Place
      */
     private $city;
 
+    /**
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    private $addDate;
 
     public function getId(): ?int
     {
@@ -112,4 +116,22 @@ class Place
     {
         $this->city = $city;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getAddDate()
+    {
+        return $this->addDate;
+    }
+
+    /**
+     * @param mixed $addDate
+     */
+    public function setAddDate($addDate): void
+    {
+        $this->addDate = $addDate;
+    }
+
+
 }
