@@ -21,7 +21,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class OutingController extends AbstractController
 {
     /**
-     * @Route ("/outing/create", name="create_outing")
+     * @Route ("/outing/create", name="outing_create")
      */
     public function createOuting(Request $request, EntityManagerInterface $em)
     {

@@ -5,13 +5,13 @@
 {% endblock %}
 
 {% block main %}
-<div class="filters">
-    {{ form_start(searchForm) }}
-    {{ form_widget(searchForm) }}
-    <button class="btn btn-success" type="submit">Rechercher</button>
-    {{ form_end(searchForm) }}
-
-</div>
+    <div class="filters">
+        {{ form_start(searchForm) }}
+        {{ form_widget(searchForm) }}
+        <button class="btn btn-success" type="submit">Rechercher</button>
+        {{ form_end(searchForm) }}
+        </div>
     {% embed 'outing/list.html.twig' %}
     {% endembed %}
+
 {% endblock %}

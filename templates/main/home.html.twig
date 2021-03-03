@@ -1,5 +1,10 @@
 {% extends 'default.html.twig' %}
 
+{% block title %}
+    {{ parent() }} | Home
+{% endblock %}
+
+
 {% block main %}
     {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
         <div>
@@ -14,7 +19,4 @@
 
 {% endblock %}
 
-{% block title %}
-
-{% endblock %}
 

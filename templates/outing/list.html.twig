@@ -1,16 +1,6 @@
-{#  {% extends 'default.html.twig' %}
-
-{% block title %}
-    {{ parent() }} | Outing List
-{% endblock %}
-
-{% block main %}
-
-    {% embed 'outing/search.html.twig' %}
-    {% endembed %}#}
-
-    <table class="table">
-        <thead>
+<!-- Table Outings List -->
+<table class="table">
+    <thead>
         <tr>
             <th scope="col">Nom de la sortie</th>
             <th scope="col">Date de la sortie</th>
@@ -21,22 +11,23 @@
             <th scope="col">Organisateur</th>
             <th scope="col">Actions</th>
         </tr>
-        </thead>
-        <tbody>
+    </thead>
+    <tbody>
         {% for outing in outingList %}
         <tr>
-                <th scope="row">{{ outing.name }}</th>
-                <td>{{ outing.startDateTime | date('d/m/Y H:i') }}</td>
-                <td>{{ outing.entryDeadline | date('d/m/Y')}}</td>
-                <td>{{ outing.participants | length }} / {{ outing.maxNumberEntries }}</td>
-                <td>{{ outing.state.label }}</td>
-                <td> X </td>
-                <td><a href="{{ path('user_profile', {id: outing.organizer.id}) }}">{{ outing.organizer.username }}</a></td>
-                <td></td>
+            <th scope="row">{{ outing.name }}</th>
+            <td>{{ outing.startDateTime | date('d/m/Y H:i') }}</td>
+            <td>{{ outing.entryDeadline | date('d/m/Y')}}</td>
+            <td>{{ outing.participants | length }} / {{ outing.maxNumberEntries }}</td>
+            <td>{{ outing.state.label }}</td>
+            <td> X </td>
+            <td><a href="{{ path('user_profile', {id: outing.organizer.id}) }}">{{ outing.organizer.username }}</a></td>
+            <td></td>
         </tr>
         {% endfor %}
-        </tbody>
-    </table>
-{#
-{% endblock %}#}
-
+    </tbody>
+</table>
+<!-- Button Créer une sortie -->
+<div id="btn-create" class="btn btn-primary">
+    <a href="{{ path('outing_create') }}">Créer une sortie</a>
+</div>
