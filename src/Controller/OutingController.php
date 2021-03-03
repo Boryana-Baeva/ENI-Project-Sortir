@@ -6,6 +6,7 @@ use App\Data\SearchData;
 use App\Entity\Outing;
 use App\Entity\Place;
 use App\Entity\State;
+use App\Entity\User;
 use App\Form\OutingType;
 use App\Form\PlaceType;
 use App\Form\SearchType;
@@ -17,6 +18,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 class OutingController extends AbstractController
 {
@@ -53,7 +55,7 @@ class OutingController extends AbstractController
             $em->persist($outing);
             $em->flush();
             //todo:rediriger vers la liste des sorties
-            return $this->redirectToRoute('home');
+            return $this->redirectToRoute('outing_search');
         }
 
         return $this->render('outing/create.html.twig', [
@@ -75,7 +77,6 @@ class OutingController extends AbstractController
         ]);
     }
 
-
     /**
      * @Route("/", name="outing_search")
      */
@@ -90,7 +91,6 @@ class OutingController extends AbstractController
 
         if ($searchForm->isSubmitted())
         {
-            dump($request);
 
             $searchParams = [
                 'connectedUser' => $this->getUser(),
@@ -110,11 +110,10 @@ class OutingController extends AbstractController
         ]);
     }
 
-
     /**
      * @Route("/outing/{id}", name="outing_details")
      */
-    public function details($id,OutingRepository $outingRepository, EntityManagerInterface $em)
+    public function details($id, EntityManagerInterface $em)
     {
         $outingRepo = $em->getRepository(Outing::class);
         $outing = $outingRepo->find($id);
@@ -122,5 +121,28 @@ class OutingController extends AbstractController
         return $this->render('outing/details.html.twig', [
             'outing' => $outing
         ]);
+    }
+
+    /**
+     * @Route("/outing/subscribe/{id}", name="outing_subscribe")
+     */
+    public function subscribe($id, EntityManagerInterface $em)
+    {
+        $outingRepo = $em->getRepository(Outing::class);
+        $outing = $outingRepo->find($id);
+        $user = $this->getUser();
+
+        $participants = $outing->getParticipants();
+        $participants->add($user);
+
+        $outings = $user->getOutingsSubscribed();
+        $outings->add($outing);
+
+        $em->persist($outing);
+        $em->persist($user);
+        $em->flush();
+
+        return $this->redirectToRoute('outing_details');
+
     }
 }

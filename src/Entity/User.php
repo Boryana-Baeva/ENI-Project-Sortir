@@ -4,8 +4,10 @@ namespace App\Entity;
 
 use App\Repository\UserRepository;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
+
 
 /**
  * /@ORM\Table(name="app_user")
@@ -200,17 +202,17 @@ class User implements UserInterface
     }
 
     /**
-     * @return ArrayCollection
+     * @return Collection
      */
-    public function getOutingsSubscribed(): ArrayCollection
+    public function getOutingsSubscribed(): Collection
     {
         return $this->outingsSubscribed;
     }
 
     /**
-     * @param ArrayCollection $outingsSubscribed
+     * @param Collection $outingsSubscribed
      */
-    public function setOutingsSubscribed(ArrayCollection $outingsSubscribed): void
+    public function setOutingsSubscribed(Collection $outingsSubscribed): void
     {
         $this->outingsSubscribed = $outingsSubscribed;
     }
