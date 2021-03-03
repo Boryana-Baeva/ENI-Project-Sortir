@@ -42,4 +42,12 @@ class PlaceType extends AbstractType
 
         ]);
     }
+
+    public function getDefaultOptions(array $options)
+    {
+        return array(
+            'csrf_protection' => false,
+             // Rest of options omitted
+        );
+    }
 }

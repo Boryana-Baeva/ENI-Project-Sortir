@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\OutingRepository;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -201,17 +202,17 @@ class Outing
     }
 
     /**
-     * @return ArrayCollection
+     * @return Collection
      */
-    public function getParticipants(): ArrayCollection
+    public function getParticipants(): Collection
     {
         return $this->participants;
     }
 
     /**
-     * @param ArrayCollection $participants
+     * @param Collection $participants
      */
-    public function setParticipants(ArrayCollection $participants): void
+    public function setParticipants(Collection $participants): void
     {
         $this->participants = $participants;
     }

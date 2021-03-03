@@ -2,9 +2,11 @@
 
 namespace App\Repository;
 
+use App\Data\SearchData;
 use App\Entity\Outing;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * @method Outing|null find($id, $lockMode = null, $lockVersion = null)
@@ -47,4 +49,31 @@ class OutingRepository extends ServiceEntityRepository
         ;
     }
     */
+
+    /**
+     * @return Outing[] Returns an array containing the searched events
+     */
+    public function findSearched(SearchData $searchData, UserInterface $organizer=null)
+    {
+        $query = $this
+            ->createQueryBuilder('o')
+            ->select('o');
+
+        if (!empty($searchData->organisator))
+        {
+            $query = $query
+                ->andWhere('o.organizer = :organizer')
+                ->setParameter('organizer', $organizer);
+        }
+
+        if (!empty($searchData->pastEvents))
+        {
+            $query = $query
+                ->andWhere('o.startDateTime < :startDateTime')
+                ->setParameter('startDateTime', new \DateTime());
+        }
+
+        return $query->getQuery()->getResult();
+    }
+
 }
