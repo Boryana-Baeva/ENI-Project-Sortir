@@ -12,8 +12,6 @@
         {{ form_row(outingForm.campus) }}
         {{ form_row(outingForm.place) }}
 
-        {% embed 'place/add.html.twig' %}
-        {% endembed %}
 
         {#  Show these fields after selecting a Place#}
         {# {{ form_row(outingForm.street) }}
@@ -27,6 +25,7 @@
         {{ form_rest(outingForm) }}
         {{ form_end(outingForm) }}
     </div>
-
+    {% embed 'place/add.html.twig' %}
+    {% endembed %}
 {% endblock %}
 

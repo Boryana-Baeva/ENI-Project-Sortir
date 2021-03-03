@@ -31,15 +31,16 @@ class OutingController extends AbstractController
         $outingForm = $this->createForm(OutingType::class, $outing);
         $placeForm = $this->createForm(PlaceType::class, $place);
 
+        $placeForm->handleRequest($request);
         $outingForm->handleRequest($request);
 
-        if($outingForm->isSubmitted() && $outingForm->isValid())
+        if ($placeForm->isSubmitted() && $placeForm->isValid() )
         {
-            if ($placeForm->isSubmitted() && $placeForm->isValid() )
-            {
-                $em->persist($place);
-                $em->flush();
-            }
+            $em->persist($place);
+            $em->flush();
+        }
+        else if($outingForm->isSubmitted() && $outingForm->isValid())
+        {
 
             $outing->setOrganizer($this->getUser());
 

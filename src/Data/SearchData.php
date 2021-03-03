@@ -9,10 +9,10 @@ class SearchData
     /**
      * @var boolean
      */
-    public $organisator = false;
+    public $organizer = false;
 
     /**
      * @var boolean
      */
-    public $pastEvents = false;
+    public $pastOutings = false;
 }

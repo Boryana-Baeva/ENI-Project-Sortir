@@ -13,16 +13,16 @@ class SearchType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('organisator', CheckboxType::class, [
+            ->add('organizer', CheckboxType::class, [
                 'label' => 'Sorties dont je suis l\'organisateur/trice',
                 'required' => false
             ])
-            ->add('pastEvents', CheckboxType::class, [
+            ->add('pastOutings', CheckboxType::class, [
                 'label' => 'Sorties passées',
                 'required' => false
             ])
         ;
-        ;
+
     }
 
     public function configureOptions(OptionsResolver $resolver)
