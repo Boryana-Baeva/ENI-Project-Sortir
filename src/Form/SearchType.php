@@ -21,6 +21,10 @@ class SearchType extends AbstractType
                 'label' => 'Sorties passées',
                 'required' => false
             ])
+            ->add('participant', CheckboxType::class, [
+                'label'=>'Sorties auquelles je suis inscrit/e',
+                'required'=> false
+            ])
         ;
 
     }
