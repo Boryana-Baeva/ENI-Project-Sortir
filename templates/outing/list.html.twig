@@ -15,7 +15,7 @@
     <tbody>
         {% for outing in outingList %}
         <tr>
-            <th scope="row">{{ outing.name }}</th>
+            <th scope="row"><a href="{{ path('outing_details', {id: outing.id}) }}">{{ outing.name }}</a></th>
             <td>{{ outing.startDateTime | date('d/m/Y H:i') }}</td>
             <td>{{ outing.entryDeadline | date('d/m/Y')}}</td>
             <td>{{ outing.participants | length }} / {{ outing.maxNumberEntries }}</td>

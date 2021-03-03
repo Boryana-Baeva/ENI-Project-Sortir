@@ -75,6 +75,7 @@ class OutingController extends AbstractController
         ]);
     }
 
+
     /**
      * @Route("/outing/search", name="outing_search")
      */
@@ -106,6 +107,20 @@ class OutingController extends AbstractController
         return $this->render('outing/search.html.twig', [
             'outingList' => $outingList,
             'searchForm' => $searchForm->createView()
+        ]);
+    }
+
+
+    /**
+     * @Route("/outing/{id}", name="outing_details")
+     */
+    public function details($id,OutingRepository $outingRepository, EntityManagerInterface $em)
+    {
+        $outingRepo = $em->getRepository(Outing::class);
+        $outing = $outingRepo->find($id);
+
+        return $this->render('outing/details.html.twig', [
+            'outing' => $outing
         ]);
     }
 }

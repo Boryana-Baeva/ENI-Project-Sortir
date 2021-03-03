@@ -1,0 +1,72 @@
+{% extends 'default.html.twig' %}
+
+{% block main %}
+    <h1>Afficher une sortie</h1>
+
+    <div id="showOuting">
+        <div id="nomSortie">
+            <label> Nom de la sortie:</label>
+            <p>{{ outing.name }}</p>
+        </div>
+        <div id="dateHeureSortie">
+            <label> Date et heure de la sortie:</label>
+            <p>{{ outing.startDateTime | date('d/m/Y H:i') }}</p>
+        </div>
+        <div id="dateLimiteInscription">
+            <label> Date limite d'inscription:</label>s
+            <p>{{ outing.entryDeadline | date('d/m/Y') }}</p>
+        </div>
+        <div id="nbPlaces">
+            <label> Nombre de places:</label>
+            <p>{{ outing.maxNumberEntries }}</p>
+        </div>
+        <div id="duree">
+            <label> Durée:</label>
+            <p>{{ outing.duration }}</p> minutes
+        </div>
+        <div id="description">
+            <label> Description et infos:</label>
+            <p>{{ outing.description}}</p>
+        </div>
+        <div id="campus">
+            <label> Campus:</label>
+            <p>{{ outing.campus.name }}</p>
+        </div>
+        <div id="lieu">
+            <label> Lieu:</label>
+            <p>{{ outing.place.name }}</p>
+        </div>
+        <div id="rue">
+            <label> Rue:</label>
+            <p>{{ outing.place.street }}</p>
+        </div>
+        <div id="ville">
+            <label> Ville:</label>
+            <p>{{ outing.place.city.name }}</p>
+        </div>
+        <div id="codePostal">
+            <label> Code postal:</label>
+            <p>{{ outing.place.city.zipCode }}</p>
+        </div>
+        <div id="latitude">
+            <label> Latitude:</label>
+            <p>{{ outing.place.latitude }}</p>
+        </div>
+        <div id="longitude">
+            <label> Longitude:</label>
+            <p>{{ outing.place.longitude }}</p>
+        </div>
+
+        <!-- Button Modify -->
+        <div class="btn btn-primary">
+            <a href="#">Modifier</a>
+        </div>
+        <!-- Button Back -->
+        <div class="btn btn-secondary">
+            <a href="{{ path('outing_search') }}">Back</a>
+        </div>
+{% endblock %}
+
+{% block title %}
+    {{ parent() }} | Details
+{% endblock %}
