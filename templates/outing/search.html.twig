@@ -5,6 +5,18 @@
 {% endblock %}
 
 {% block main %}
+
+    {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
+        <div>
+            <div id="dateDuJour">
+                <h5>Date du jour: {{ "now" | date('d/m/Y') }} </h5>
+            </div>
+            <div id="participant">
+                <h5>Participant: {{ app.user.username }} </h5>
+            </div>
+        </div>
+    {% endif %}
+
     <div class="filters">
         {{ form_start(searchForm) }}
         {{ form_widget(searchForm) }}

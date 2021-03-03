@@ -77,7 +77,7 @@ class OutingController extends AbstractController
 
 
     /**
-     * @Route("/outing/search", name="outing_search")
+     * @Route("/", name="outing_search")
      */
     public function search(OutingRepository $repository, Request $request, CampusRepository $campusRepository)
     {

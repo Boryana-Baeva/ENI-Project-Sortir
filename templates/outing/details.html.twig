@@ -57,6 +57,33 @@
             <p>{{ outing.place.longitude }}</p>
         </div>
 
+        <!-- Table Participants -->
+        <div id="listParticipants">
+            <h6>Liste des participants inscrits</h6>
+            <table class="table">
+                <thead class="thead-dark">
+                <tr>
+                    <th scope="col">Pseudo</th>
+                    <th scope="col">Nom</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% if outing.participants.count == 0 %}
+                    <tr>
+                        <td>Aucun participant inscrit</td>
+                    </tr>
+                {% else %}
+                    {% for participant in outing.participants %}
+                        <tr>
+                            <td>{{ participant.username }}</td>
+                            <td>{{ participant.firstName }} {{ participant.lastName | upper}}</td>
+                        </tr>
+                    {% endfor %}
+                {% endif %}
+                </tbody>
+            </table>
+        </div>
+
         <!-- Button Modify -->
         <div class="btn btn-primary">
             <a href="#">Modifier</a>
@@ -65,6 +92,7 @@
         <div class="btn btn-secondary">
             <a href="{{ path('outing_search') }}">Back</a>
         </div>
+
 {% endblock %}
 
 {% block title %}
