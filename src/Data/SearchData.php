@@ -4,6 +4,7 @@
 namespace App\Data;
 
 
+use App\Entity\Campus;
 use Symfony\Component\Validator\Constraints\DateTime;
 
 class SearchData
@@ -41,7 +42,9 @@ class SearchData
     /**
      * @var boolean
      */
-    public $participant;
+    public $participants = false;
+
+
 
 
 }

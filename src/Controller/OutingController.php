@@ -10,6 +10,7 @@ use App\Entity\State;
 use App\Form\OutingType;
 use App\Form\PlaceType;
 use App\Form\SearchType;
+use App\Repository\CampusRepository;
 use App\Repository\OutingRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -77,9 +78,10 @@ class OutingController extends AbstractController
     /**
      * @Route("/outing/search", name="outing_search")
      */
-    public function search(OutingRepository $repository, Request $request)
+    public function search(OutingRepository $repository, Request $request, CampusRepository $campusRepository)
     {
         $outingList = $repository->findBy([], ["startDateTime" => "DESC"], 30);
+        //$campusList = $campusRepository->findBy([], ["name"]);
         $data = new SearchData();
         $searchForm = $this->createForm(SearchType::class, $data);
 
@@ -92,6 +94,7 @@ class OutingController extends AbstractController
 
         return $this->render('outing/search.html.twig', [
             'outingList' => $outingList,
+           // 'campusList'= $campusList,
             'searchForm' => $searchForm->createView()
         ]);
     }

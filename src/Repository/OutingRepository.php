@@ -53,24 +53,31 @@ class OutingRepository extends ServiceEntityRepository
     /**
      * @return Outing[] Returns an array containing the searched events
      */
-    public function findSearched(SearchData $searchData, UserInterface $organizer=null)
+    public function findSearched(SearchData $searchData, UserInterface $organizer=null, Outing $outing)
     {
         $query = $this
             ->createQueryBuilder('o')
             ->select('o');
 
-        if (!empty($searchData->organisator))
+        if (!empty($searchData->organizer))
         {
             $query = $query
                 ->andWhere('o.organizer = :organizer')
                 ->setParameter('organizer', $organizer);
         }
 
-        if (!empty($searchData->pastEvents))
+        if (!empty($searchData->pastOutings))
         {
             $query = $query
                 ->andWhere('o.startDateTime < :startDateTime')
                 ->setParameter('startDateTime', new \DateTime());
+        }
+
+        if (!empty($searchData->participants))
+        {
+            $query = $query
+                ->andWhere('o.participants = :participants')
+                ->setParameter('participants', $outing->getParticipants());
         }
 
         return $query->getQuery()->getResult();
