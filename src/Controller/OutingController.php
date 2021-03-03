@@ -3,7 +3,6 @@
 namespace App\Controller;
 
 use App\Data\SearchData;
-use App\Entity\City;
 use App\Entity\Outing;
 use App\Entity\Place;
 use App\Entity\State;
@@ -12,6 +11,7 @@ use App\Form\PlaceType;
 use App\Form\SearchType;
 use App\Repository\CampusRepository;
 use App\Repository\OutingRepository;
+use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -81,7 +81,7 @@ class OutingController extends AbstractController
     public function search(OutingRepository $repository, Request $request, CampusRepository $campusRepository)
     {
         $outingList = $repository->findBy([], ["startDateTime" => "DESC"], 30);
-        //$campusList = $campusRepository->findBy([], ["name"]);
+
         $data = new SearchData();
         $searchForm = $this->createForm(SearchType::class, $data);
 
@@ -89,12 +89,22 @@ class OutingController extends AbstractController
 
         if ($searchForm->isSubmitted())
         {
-            $outingList = $repository->findSearched($data, $this->getUser());
+            dump($request);
+
+            $searchParams = [
+                'connectedUser' => $this->getUser(),
+                'campus' => $request->query->get('campus'),
+                'outingName' => $request->query->get('q'),
+                'minDate' => $request->query->get('minDate'),
+                'maxDate' => $request->query->get('maxDate')
+                ];
+
+            $outingList = $repository->findSearched($data, $searchParams);
+
         }
 
         return $this->render('outing/search.html.twig', [
             'outingList' => $outingList,
-           // 'campusList'= $campusList,
             'searchForm' => $searchForm->createView()
         ]);
     }

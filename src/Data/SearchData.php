@@ -15,17 +15,12 @@ class SearchData
     public $q = '';
 
     /**
-     * @var string
-     */
-    public $dateFilters = DateTime::class;
-
-    /**
-     * @var datetime
+     * @var null|datetime
      */
     public $minDate;
 
     /**
-     * @var datetime
+     * @var null|datetime
      */
     public $maxDate;
 
@@ -42,9 +37,16 @@ class SearchData
     /**
      * @var boolean
      */
-    public $participants = false;
+    public $subscribed;
 
+    /**
+     * @var boolean
+     */
+    public $unsubscribed;
 
-
+    /**
+     * @var Campus
+     */
+    public $campus;
 
 }

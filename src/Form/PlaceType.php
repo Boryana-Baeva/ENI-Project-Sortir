@@ -19,6 +19,7 @@ class PlaceType extends AbstractType
             ])
             ->add('street', TextType::class, [
                 'label'=>'rue',
+                'required' => false
             ])
             ->add('city', EntityType::class, [
                 'class'=> 'App\Entity\City',
@@ -26,12 +27,13 @@ class PlaceType extends AbstractType
                 'label'=>'Ville'
             ])
             ->add('latitude', TextType::class, [
-                'label'=> 'Latitude'
+                'label'=> 'Latitude',
+                'required' => false
             ])
             ->add('longitude', TextType::class, [
-                'label'=> 'Longitude'
+                'label'=> 'Longitude',
+                'required' => false
             ])
-
         ;
     }
 

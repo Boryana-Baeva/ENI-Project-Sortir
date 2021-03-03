@@ -3,10 +3,12 @@
 namespace App\Repository;
 
 use App\Data\SearchData;
+use App\Entity\Campus;
 use App\Entity\Outing;
+use DateTime;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
-use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Validator\Constraints;
 
 /**
  * @method Outing|null find($id, $lockMode = null, $lockVersion = null)
@@ -21,39 +23,10 @@ class OutingRepository extends ServiceEntityRepository
         parent::__construct($registry, Outing::class);
     }
 
-    // /**
-    //  * @return Outing[] Returns an array of Outing objects
-    //  */
-    /*
-    public function findByExampleField($value)
-    {
-        return $this->createQueryBuilder('o')
-            ->andWhere('o.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('o.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
-    }
-    */
-
-    /*
-    public function findOneBySomeField($value): ?Outing
-    {
-        return $this->createQueryBuilder('o')
-            ->andWhere('o.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
-    }
-    */
-
     /**
      * @return Outing[] Returns an array containing the searched events
      */
-    public function findSearched(SearchData $searchData, UserInterface $organizer=null, Outing $outing)
+    public function findSearched(SearchData $searchData, array $searchParams)
     {
         $query = $this
             ->createQueryBuilder('o')
@@ -63,7 +36,7 @@ class OutingRepository extends ServiceEntityRepository
         {
             $query = $query
                 ->andWhere('o.organizer = :organizer')
-                ->setParameter('organizer', $organizer);
+                ->setParameter('organizer', $searchParams['connectedUser']);
         }
 
         if (!empty($searchData->pastOutings))
@@ -73,11 +46,67 @@ class OutingRepository extends ServiceEntityRepository
                 ->setParameter('startDateTime', new \DateTime());
         }
 
-        if (!empty($searchData->participants))
+        if (!empty($searchData->subscribed))
         {
             $query = $query
-                ->andWhere('o.participants = :participants')
-                ->setParameter('participants', $outing->getParticipants());
+                ->andWhere(':user MEMBER OF o.participants')
+                ->setParameter('user', $searchParams['connectedUser'] );
+        }
+
+        if (!empty($searchData->unsubscribed))
+        {
+            $query = $query
+                ->andWhere(':user NOT MEMBER OF o.participants')
+                ->setParameter('user', $searchParams['connectedUser'] );
+        }
+
+        if (!empty($searchData->campus))
+        {
+            $query = $query
+                ->andWhere('o.campus = :campus')
+                ->setParameter('campus', $searchParams['campus']);
+        }
+
+        if (!empty($searchData->q))
+        {
+            $query = $query
+                ->andWhere('o.name LIKE :name')
+                ->setParameter('name', "%{$searchParams['outingName']}%");
+        }
+
+        if (!empty($searchData->minDate) && !empty($searchData->maxDate))
+        {
+            $minDateArray = $searchParams['minDate'];
+            $maxDateArray = $searchParams['maxDate'];
+            $minDateString = (String)$minDateArray['year'] . '-' . (String)$minDateArray['month'] . '-' . (String)$minDateArray['day'];
+            $maxDateString = (String)$maxDateArray['year'] . '-' . (String)$maxDateArray['month'] . '-' . (String)$maxDateArray['day'];
+            $minDate = new Datetime($minDateString);
+            $maxDate = new Datetime($maxDateString);
+
+            $query = $query
+                ->andWhere('o.startDateTime BETWEEN :minDate AND :maxDate')
+                ->setParameter('minDate', $minDate)
+                ->setParameter('maxDate', $maxDate)
+                ;
+        }
+        elseif (!empty($searchData->minDate))
+        {
+            $minDateArray = $searchParams['minDate'];
+            $minDateString = (String)$minDateArray['year'] . '-' . (String)$minDateArray['month'] . '-' . (String)$minDateArray['day'];
+
+            $minDate = new Datetime($minDateString);
+            $query = $query
+                ->andWhere('o.startDateTime >= :startDateTime')
+                ->setParameter('startDateTime', $minDate);
+        }
+        elseif (!empty($searchData->maxDate))
+        {
+            $maxDateArray = $searchParams['maxDate'];
+            $maxDateString = (String)$maxDateArray['year'] . '-' . (String)$maxDateArray['month'] . '-' . (String)$maxDateArray['day'];
+            $maxDate = new Datetime($maxDateString);
+            $query = $query
+                ->andWhere('o.startDateTime <= :startDateTime')
+                ->setParameter('startDateTime', $maxDate);
         }
 
         return $query->getQuery()->getResult();

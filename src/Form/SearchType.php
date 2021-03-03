@@ -4,10 +4,11 @@ namespace App\Form;
 
 use App\Data\SearchData;
 
-use App\Entity\Campus;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -17,6 +18,12 @@ class SearchType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
+            ->add('campus',  EntityType::class,  [
+            'label'=> 'Campus',
+            'required'=>false,
+            'class'=> 'App\Entity\Campus',
+            'choice_label' => 'name',
+            ])
             ->add('q', TextType::class, [
                 'label' => false,
                 'required'=>  false,
@@ -24,12 +31,20 @@ class SearchType extends AbstractType
                     'placeholder'=>'Rechercher'
                 ]
             ])
-            /*->add('campus',  EntityType::class,  [
-                'label'=> 'Campus',
-                'required'=>false,
-                'class'=> 'App\Entity\Campus'
-            ])*/
-
+            ->add('minDate', DateType::class, [
+                'label' => 'Entre ',
+                'required'=>  false,
+                'attr'=> [
+                    'placeholder'=>' / / '
+                ]
+            ])
+            ->add('maxDate', DateType::class, [
+                'label' => ' et ',
+                'required'=>  false,
+                'attr'=> [
+                    'placeholder'=>' / / '
+                ]
+            ])
             ->add('organizer', CheckboxType::class, [
                 'label' => 'Sorties dont je suis l\'organisateur/trice',
                 'required' => false
@@ -38,8 +53,12 @@ class SearchType extends AbstractType
                 'label' => 'Sorties passées',
                 'required' => false
             ])
-            ->add('participants', CheckboxType::class, [
+            ->add('subscribed', CheckboxType::class, [
                 'label'=>'Sorties auquelles je suis inscrit/e',
+                'required'=> false
+            ])
+            ->add('unsubscribed', CheckboxType::class, [
+                'label'=>'Sorties auquelles je ne suis pas inscrit/e',
                 'required'=> false
             ])
         ;
