@@ -218,7 +218,8 @@ class OutingController extends AbstractController
             $em->persist($outing);
             $em->flush();
 
-            $this->addFlash("successDesInscription", "Vous êtes bien inscrit(e) à la sortie \" " . $outing->getName() . "\" !"   );
+            $this->addFlash("successDesInscription", "Vous êtes bien inscrit(e) à la sortie \" "
+                                . $outing->getName() . "\" !"   );
         }
 
         return $this->redirectToRoute('outing_details', [
@@ -238,21 +239,27 @@ class OutingController extends AbstractController
         $outingRepo = $em->getRepository(Outing::class);
         $outing = $outingRepo->find($id);
 
-        //$deadline = $outing->getEntryDeadline();
         $startDate = $outing->getStartDateTime();
-        $stateLabel = $outing->getState()->getLabel();
-        //$limitSubs =  $outing->getMaxNumberEntries();
-        //$nbrParticipants = $outing->getParticipants()->count();
         $today = new \DateTime();
 
         $userRepo = $em->getRepository(User::class);
         $user = $userRepo->findOneBy(["username" => $this->getUser()->getUsername()]);
+
+        if (!$outing->getParticipants()->contains($user))
+        {
+            $message = "Vous n'êtes pas inscrit(e) à cette sortie(".$outing->getName().").";
+            return $this->render('outing/details.html.twig', [
+                "message"=>$message,
+                "id"=>$id
+            ]);
+        }
 
         if ($startDate > $today)
         {
             $outing->removeParticipant($user);
             $user->removeOutingSubscribed($outing);
             $em->persist($outing);
+            $em->persist($user);
             $em->flush();
 
             $this->addFlash("successDesInscription", "Vous êtes bien désinscrit(e) de la sortie \" " . $outing->getName() . "\" !"   );
