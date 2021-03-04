@@ -5,7 +5,7 @@
         {{ form_start(modifyForm) }}
         {{ form_row(modifyForm.name) }}
         {{ form_row(modifyForm.startDateTime) }}
-        {{ form_row(modifyForm.duration) }}
+        {{ form_row(modifyForm.duration) }} minutes
         {{ form_row(modifyForm.entryDeadline) }}
         {{ form_row(modifyForm.maxNumberEntries) }}
         {{ form_row(modifyForm.description) }}
@@ -13,9 +13,11 @@
         {{ form_row(modifyForm.place) }}
 
         {{ form_row(modifyForm._token) }}
-        <button type="submit">Enregistrer</button>
+        <button class="btn btn-primary" type="submit">Enregistrer</button>
         {{ form_rest(modifyForm) }}
         {{ form_end(modifyForm) }}
+        <button class="btn btn-secondary" type="button"><a href="{{ path('outing_details', {id: outing.id}) }}">Annuler</a></button>
     </div>
-
+    {% embed 'place/add.html.twig' %}
+    {% endembed %}
 {% endblock %}

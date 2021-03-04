@@ -5,7 +5,7 @@
         {{ form_start(outingForm) }}
         {{ form_row(outingForm.name) }}
         {{ form_row(outingForm.startDateTime) }}
-        {{ form_row(outingForm.duration) }}
+        {{ form_row(outingForm.duration) }} minutes
         {{ form_row(outingForm.entryDeadline) }}
         {{ form_row(outingForm.maxNumberEntries) }}
         {{ form_row(outingForm.description) }}
@@ -13,9 +13,11 @@
         {{ form_row(outingForm.place) }}
 
         {{ form_row(outingForm._token) }}
-        <button type="submit">Enregistrer</button>
+        <button class="btn btn-primary" type="submit">Enregistrer</button>
         {{ form_rest(outingForm) }}
         {{ form_end(outingForm) }}
+        <button class="btn btn-primary" type="button"><a href="#">Publier la sortie</a></button>
+        <button class="btn btn-secondary" type="button"><a href="{{ path('outing_search') }}">Annuler</a></button>
     </div>
     {% embed 'place/add.html.twig' %}
     {% endembed %}

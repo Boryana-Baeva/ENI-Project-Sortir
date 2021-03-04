@@ -138,9 +138,20 @@ class OutingController extends AbstractController
             throw new AccessDeniedException('Impossible de modifier des sorties  si vous  n\'êtes pas l\'organisateur');
         }
 
+        $place = new Place();
+        $place->setAddDate(new \DateTime());
+        $placeForm = $this->createForm(PlaceType::class, $place);
+
+        $placeForm->handleRequest($request);
         $modifyForm = $this->createForm(OutingType::class, $outing);
 
         $modifyForm->handleRequest($request);
+
+        if ($placeForm->isSubmitted() && $placeForm->isValid() )
+        {
+            $em->persist($place);
+            $em->flush();
+        }
 
         if ($modifyForm->isSubmitted() && $modifyForm->isValid())
         {
@@ -154,7 +165,8 @@ class OutingController extends AbstractController
 
         return $this->render('outing/modify.html.twig', [
             'outing'=>  $outing,
-            'modifyForm'=> $modifyForm->createView()
+            'modifyForm'=> $modifyForm->createView(),
+            'placeForm'=> $placeForm->createView()
         ]);
     }
 

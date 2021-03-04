@@ -23,11 +23,20 @@
             <td> X </td>
             <td><a href="{{ path('user_profile', {id: outing.organizer.id}) }}">{{ outing.organizer.username }}</a></td>
             <td>
+                <a href="{{ path('outing_details', {id: outing.id}) }}">Afficher</a>
                 {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
                     {% if app.user in outing.participants %}
                         <a href="#">Se désister</a>
                     {% else %}
-                    <a href="{{ path('outing_subscribe', {id: outing.id}) }}">S'inscrire</a>
+                        {% if app.user != outing.organizer %}
+                            <a href="{{ path('outing_subscribe', {id: outing.id}) }}">S'inscrire</a>
+                        {% endif %}
+                    {% endif %}
+                    {% if app.user == outing.organizer %}
+                        <a href="{{ path('outing_modify', {id: outing.id}) }}">Modifier</a>
+                        {%  if outing.state.label == 'created' %}
+                        <a href="#">Publier</a>
+                        {% endif %}
                     {% endif %}
                 {% endif %}
 
