@@ -56,7 +56,8 @@ class OutingController extends AbstractController
 
             $em->persist($outing);
             $em->flush();
-            //todo:rediriger vers la liste des sorties
+
+            $this->addFlash('success', "La sortie a été crée !");
             return $this->redirectToRoute('outing_search');
         }
 
@@ -158,6 +159,7 @@ class OutingController extends AbstractController
             $em->persist($outing);
             $em->flush();
 
+            $this->addFlash('success', "La sortie a été modifiée !");
            return $this->redirectToRoute('outing_details', [
                 'id'=>$outing->getId()
             ]);
@@ -182,33 +184,34 @@ class OutingController extends AbstractController
         $outing = $outingRepo->find($id);
 
         $deadline = $outing ->getEntryDeadline();
+        $today = new \DateTime();
+
+        if ($deadline <= $today)
+        {
+            $this->addFlash('failure', 'Vous ne pouvez pas vous inscrire à une sortie après la date de clôture des inscriptions');
+            return $this->redirectToRoute('outing_search', []);
+        }
+
         $limitSubs =  $outing -> getMaxNumberEntries();
         $nbrParticipants = $outing->getParticipants()->count();
-        $today = new \DateTime();
 
         $userRepo = $em->getRepository(User::class);
         $user = $userRepo->findOneBy(["username" => $this->getUser()->getUsername()]);
 
-        $message = null;
         if ($outing->getParticipants()->contains($user))
         {
-            $message = "Vous êtes déjà inscrit(e) à cette sortie(".$outing->getName().").";
-            return $this->render('outing/details.html.twig', [
-                "message"=>$message,
-                "id"=>$id
-            ]);
+            $this->addFlash('failure',"Vous êtes déjà inscrit(e) à cette sortie(".$outing->getName().")." );
+            return $this->redirectToRoute('outing_search', []);
         }
         elseif ( $limitSubs == $outing->getParticipants()->count())
         {
-            $message = "Nombre de participants max atteint pour cette sortie (". $outing->getName() .").";
-            return  $this->redirectToRoute('outing_details', [
-                "message" => $message,
-                "id"=> $id
-            ]);
+            $this->addFlash('failure', "Nombre de participants max atteint pour cette sortie (". $outing->getName() .").");
+            return $this->redirectToRoute('outing_search', []);
         }
         elseif ($outing->getState()->getLabel() == 'closed' )
         {
-            $message = "Inscription à cette sortie (". $outing->getName() .") clôturée !.";
+            $this->addFlash('failure',"Inscription à cette sortie (". $outing->getName() .") clôturée !.");
+            return $this->redirectToRoute('outing_search', []);
         }
 
         if ($nbrParticipants < $limitSubs && $deadline > $today)
@@ -220,11 +223,13 @@ class OutingController extends AbstractController
 
             $this->addFlash("successDesInscription", "Vous êtes bien inscrit(e) à la sortie \" "
                                 . $outing->getName() . "\" !"   );
+
+            return $this->redirectToRoute('outing_details', [
+                'id'=>$id
+            ]);
         }
 
-        return $this->redirectToRoute('outing_details', [
-            'id'=>$id
-        ]);
+        return $this->redirectToRoute('outing_search', []);
 
     }
 
@@ -247,11 +252,8 @@ class OutingController extends AbstractController
 
         if (!$outing->getParticipants()->contains($user))
         {
-            $message = "Vous n'êtes pas inscrit(e) à cette sortie(".$outing->getName().").";
-            return $this->render('outing/details.html.twig', [
-                "message"=>$message,
-                "id"=>$id
-            ]);
+            $this->addFlash('failure',"Vous n'êtes pas inscrit(e) à cette sortie(".$outing->getName().").");
+            return $this->redirectToRoute('outing_search', []);
         }
 
         if ($startDate > $today)
@@ -263,11 +265,13 @@ class OutingController extends AbstractController
             $em->flush();
 
             $this->addFlash("successDesInscription", "Vous êtes bien désinscrit(e) de la sortie \" " . $outing->getName() . "\" !"   );
+
+            return $this->redirectToRoute('outing_details', [
+                'id'=>$id
+            ]);
         }
 
-        return $this->redirectToRoute('outing_details', [
-            'id'=>$id
-        ]);
+        return $this->redirectToRoute('outing_search', []);
 
     }
 }
