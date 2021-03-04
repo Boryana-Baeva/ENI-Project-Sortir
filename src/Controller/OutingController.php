@@ -174,80 +174,52 @@ class OutingController extends AbstractController
      * @Route("/outing/subscribe/{id}", name="outing_subscribe",requirements={"id": "\d+"},
      *     methods={"GET"})
      */
-    public function subscribe($id,  EntityManagerInterface $em)
+    public function subscribe($id, EntityManagerInterface $em)
     {
-dump('hello');
         $this->denyAccessUnlessGranted('ROLE_USER');
 
         $outingRepo = $em->getRepository(Outing::class);
-
         $outing = $outingRepo->find($id);
-
 
         $deadline = $outing ->getEntryDeadline();
         $limitSubs =  $outing -> getMaxNumberEntries();
+        $nbrParticipants = $outing->getParticipants()->count();
         $today = new \DateTime();
 
-        $user = new User();
-        $user = $this->getUser();
-
+        $userRepo = $em->getRepository(User::class);
+        $user = $userRepo->findOneBy(["username" => $this->getUser()->getUsername()]);
 
         $message = null;
-
-      /*  if ($outing->getParticipants()->contains($user))
+        if ($outing->getParticipants()->contains($user))
         {
             $message = "Vous êtes déjà inscrit(e) à cette sortie(".$outing->getName().").";
             return $this->render('outing/details.html.twig', [
                 "message"=>$message,
-                "entitys"=>$outings,
                 "id"=>$id
             ]);
         }
-        elseif ( $outing->$limitSubs() == $outing->getParticipants()->count())
+        elseif ( $limitSubs == $outing->getParticipants()->count())
         {
             $message = "Nombre de participants max atteint pour cette sortie (". $outing->getName() .").";
             return  $this->redirectToRoute('outing_details', [
                 "message" => $message,
-                "entities" => $outings,
                 "id"=> $id
             ]);
         }
-        elseif ($outing->getState()->getId() != 3 )
+        elseif ($outing->getState()->getLabel() == 'closed' )
         {
             $message = "Inscription à cette sortie (". $outing->getName() .") clôturée !.";
         }
 
-
-        $outing->addParticipant($user);
-        dump($outing->getParticipants());
-        $user->addOutingSubscribed($outing);
-        dump($user->getOutingsSubscribed());
-
-        $em->persist($outing);
-        $em->flush();
-
-        $this->addFlash("successDesInscription", "Vous êtes bien inscrit(e) à la sortie \" " . $outing->getName() . "\" !"   );
-
-        return $this->redirectToRoute('outing_details',[
-            "entities" =>$outings,
-            "message" => $message,
-            "id"=> $id,
-            "outing"=>$outing
-        ]);
-
-        */
-
-        $nbrParticipants = $outing->getParticipants()->count();
-
-        if ($nbrParticipants < $limitSubs and $deadline > $today)
+        if ($nbrParticipants < $limitSubs && $deadline > $today)
         {
             $outing->addParticipant($user);
-
+            $user->addOutingSubscribed($outing);
             $em->persist($outing);
             $em->flush();
-            dump($outing->getParticipants());
-        }
 
+            $this->addFlash("successDesInscription", "Vous êtes bien inscrit(e) à la sortie \" " . $outing->getName() . "\" !"   );
+        }
 
         return $this->redirectToRoute('outing_details', [
             'id'=>$id

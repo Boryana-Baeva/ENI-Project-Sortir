@@ -217,7 +217,6 @@ class Outing
     {
         if(!$this->participants->contains($participant)){
             $this->participants[] =  $participant;
-            $participant->addOutingSubscribed($this);
 
         }
         return $this;

@@ -75,7 +75,7 @@
                 {% else %}
                     {% for participant in outing.participants %}
                         <tr>
-                            <td>{{ participant.username }}</td>
+                            <td><a href="{{ path('user_profile', {id: participant.id}) }}">{{ participant.username }}</a></td>
                             <td>{{ participant.firstName }} {{ participant.lastName | upper}}</td>
                         </tr>
                     {% endfor %}
