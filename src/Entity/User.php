@@ -75,7 +75,7 @@ class User implements UserInterface
     private $campus;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Outing", inversedBy="participants")
+     * @ORM\ManyToMany(targetEntity="App\Entity\Outing", inversedBy="participants")
      */
     private $outingsSubscribed;
 

@@ -74,12 +74,8 @@ class Outing
     private $campus;
 
     /**
-     * @ORM\OneToMany (
-     *      targetEntity="App\Entity\User",
-     *      mappedBy="outingsSubscribed",
-     *      fetch="EXTRA_LAZY",
-     *      orphanRemoval=true,
-     *      cascade={"persist"})
+     * @ORM\ManyToMany(targetEntity="App\Entity\User",
+     *      mappedBy="outingsSubscribed")
      */
     private $participants;
 
@@ -217,10 +213,12 @@ class Outing
         return $this->participants;
     }
 
-    public function addParticipant( UserInterface $participant):self
+    public function addParticipant( User $participant):self
     {
         if(!$this->participants->contains($participant)){
             $this->participants[] =  $participant;
+            $participant->addOutingSubscribed($this);
+
         }
         return $this;
     }

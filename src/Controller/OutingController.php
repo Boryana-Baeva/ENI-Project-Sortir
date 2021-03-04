@@ -180,35 +180,38 @@ dump('hello');
         $this->denyAccessUnlessGranted('ROLE_USER');
 
         $outingRepo = $em->getRepository(Outing::class);
-        $userRepo = $em->getRepository(User::class);
-        $user = $userRepo->find($id);
+
         $outing = $outingRepo->find($id);
-        $outings = $outingRepo->findAll();
+
 
         $deadline = $outing ->getEntryDeadline();
         $limitSubs =  $outing -> getMaxNumberEntries();
         $today = new \DateTime();
 
+        $user = new User();
+        $user = $this->getUser();
 
 
         $message = null;
 
-        if ($outing->getParticipants()->contains($user))
+      /*  if ($outing->getParticipants()->contains($user))
         {
             $message = "Vous êtes déjà inscrit(e) à cette sortie(".$outing->getName().").";
-            return $this->render('outing/search.html.twig', [
+            return $this->render('outing/details.html.twig', [
                 "message"=>$message,
-                "entitys"=>$outings
+                "entitys"=>$outings,
+                "id"=>$id
             ]);
         }
-       /* elseif ( $outing->$limitSubs() == $outing->getParticipants()->count())
+        elseif ( $outing->$limitSubs() == $outing->getParticipants()->count())
         {
             $message = "Nombre de participants max atteint pour cette sortie (". $outing->getName() .").";
-            return  $this->redirectToRoute('outing_search', [
+            return  $this->redirectToRoute('outing_details', [
                 "message" => $message,
                 "entities" => $outings,
+                "id"=> $id
             ]);
-        }*/
+        }
         elseif ($outing->getState()->getId() != 3 )
         {
             $message = "Inscription à cette sortie (". $outing->getName() .") clôturée !.";
@@ -218,6 +221,7 @@ dump('hello');
         $outing->addParticipant($user);
         dump($outing->getParticipants());
         $user->addOutingSubscribed($outing);
+        dump($user->getOutingsSubscribed());
 
         $em->persist($outing);
         $em->flush();
@@ -227,16 +231,14 @@ dump('hello');
         return $this->redirectToRoute('outing_details',[
             "entities" =>$outings,
             "message" => $message,
-            "id"=> $id
+            "id"=> $id,
+            "outing"=>$outing
         ]);
 
-        /*$nbrParticipants = $outing->getParticipants()->count();
+        */
 
-        $deadline = $outing ->getEntryDeadline();
-        $limitSubs =  $outing -> getMaxNumberEntries();
-        $today = new \DateTime();
+        $nbrParticipants = $outing->getParticipants()->count();
 
-        dump($outing->getParticipants());
         if ($nbrParticipants < $limitSubs and $deadline > $today)
         {
             $outing->addParticipant($user);
@@ -249,7 +251,7 @@ dump('hello');
 
         return $this->redirectToRoute('outing_details', [
             'id'=>$id
-        ]);*/
+        ]);
 
     }
 }
