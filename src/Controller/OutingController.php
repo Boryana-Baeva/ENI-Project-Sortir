@@ -226,4 +226,41 @@ class OutingController extends AbstractController
         ]);
 
     }
+
+    /**
+     * @Route("/outing/unsubscribe/{id}", name="outing_unsubscribe",requirements={"id": "\d+"},
+     *     methods={"GET"})
+     */
+    public function unsubscribe($id, EntityManagerInterface $em)
+    {
+        $this->denyAccessUnlessGranted('ROLE_USER');
+
+        $outingRepo = $em->getRepository(Outing::class);
+        $outing = $outingRepo->find($id);
+
+        //$deadline = $outing->getEntryDeadline();
+        $startDate = $outing->getStartDateTime();
+        $stateLabel = $outing->getState()->getLabel();
+        //$limitSubs =  $outing->getMaxNumberEntries();
+        //$nbrParticipants = $outing->getParticipants()->count();
+        $today = new \DateTime();
+
+        $userRepo = $em->getRepository(User::class);
+        $user = $userRepo->findOneBy(["username" => $this->getUser()->getUsername()]);
+
+        if ($startDate > $today)
+        {
+            $outing->removeParticipant($user);
+            $user->removeOutingSubscribed($outing);
+            $em->persist($outing);
+            $em->flush();
+
+            $this->addFlash("successDesInscription", "Vous êtes bien désinscrit(e) de la sortie \" " . $outing->getName() . "\" !"   );
+        }
+
+        return $this->redirectToRoute('outing_details', [
+            'id'=>$id
+        ]);
+
+    }
 }

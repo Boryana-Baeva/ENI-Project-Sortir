@@ -221,6 +221,14 @@ class Outing
         }
         return $this;
     }
+
+    public function removeParticipant(User $participant): self
+    {
+        if ($this->participants->contains($participant)) {
+            $this->participants->removeElement($participant);
+        }
+        return $this;
+    }
     /**
      * @param Collection $participants
      */

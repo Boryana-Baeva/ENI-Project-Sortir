@@ -26,7 +26,7 @@
                 <a href="{{ path('outing_details', {id: outing.id}) }}">Afficher</a>
                 {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
                     {% if app.user in outing.participants %}
-                        <a href="#">Se désister</a>
+                        <a href="{{ path('outing_unsubscribe', {id: outing.id}) }}">Se désister</a>
                     {% else %}
                         {% if app.user != outing.organizer %}
                             <a href="{{ path('outing_subscribe', {id: outing.id}) }}">S'inscrire</a>

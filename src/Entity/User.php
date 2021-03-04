@@ -209,13 +209,22 @@ class User implements UserInterface
         return $this->outingsSubscribed;
     }
 
-    public function addOutingSubscribed(Outing  $outingSubscribed):self
+    public function addOutingSubscribed(Outing $outingSubscribed):self
     {
         if(!$this->outingsSubscribed->contains($outingSubscribed)){
             $this->outingsSubscribed[] = $outingSubscribed;
         }
         return $this;
     }
+
+    public function removeOutingSubscribed(Outing $outingSubscribed): self
+    {
+        if ($this->outingsSubscribed->contains($outingSubscribed)) {
+            $this->outingsSubscribed->removeElement($outingSubscribed);
+        }
+        return $this;
+    }
+
     /**
      * @param Collection $outingsSubscribed
      */
