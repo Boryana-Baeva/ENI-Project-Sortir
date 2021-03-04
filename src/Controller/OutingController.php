@@ -14,7 +14,9 @@ use App\Repository\CampusRepository;
 use App\Repository\OutingRepository;
 use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Finder\Exception\AccessDeniedException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -124,25 +126,72 @@ class OutingController extends AbstractController
     }
 
     /**
-     * @Route("/outing/subscribe/{id}", name="outing_subscribe")
+     * @Route ("/outing/modify/{id}",  name="outing_modify")
      */
-    public function subscribe($id, EntityManagerInterface $em)
+    public function modify($id, EntityManagerInterface $em, Request $request)
     {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_REMEMBERED');
         $outingRepo = $em->getRepository(Outing::class);
         $outing = $outingRepo->find($id);
+        if ($outing->getOrganizer() != $this->getUser())
+        {
+            throw new AccessDeniedException('Impossible de modifier des sorties  si vous  n\'êtes pas l\'organisateur');
+        }
+
+        $modifyForm = $this->createForm(OutingType::class, $outing);
+
+        $modifyForm->handleRequest($request);
+
+        if ($modifyForm->isSubmitted() && $modifyForm->isValid())
+        {
+            $em->persist($outing);
+            $em->flush();
+
+           return $this->redirectToRoute('outing_details', [
+                'id'=>$outing->getId()
+            ]);
+        }
+
+        return $this->render('outing/modify.html.twig', [
+            'outing'=>  $outing,
+            'modifyForm'=> $modifyForm->createView()
+        ]);
+    }
+
+    /**
+     * @Route("/outing/subscribe/{id}", name="outing_subscribe",requirements={"id": "\d+"},
+     *     methods={"GET"})
+     */
+    public function subscribe($id,  EntityManagerInterface $em)
+    {
+dump('hello');
+        $this->denyAccessUnlessGranted('ROLE_USER');
+
+        $outingRepo = $em->getRepository(Outing::class);
+        $outing = $outingRepo->find($id);
+
         $user = $this->getUser();
 
-        $participants = $outing->getParticipants();
-        $participants->add($user);
+        $nbrParticipants = $outing->getParticipants()->count();
 
-        $outings = $user->getOutingsSubscribed();
-        $outings->add($outing);
+        $deadline = $outing ->getEntryDeadline();
+        $limitSubs =  $outing -> getMaxNumberEntries();
+        $today = new \DateTime();
 
-        $em->persist($outing);
-        $em->persist($user);
-        $em->flush();
+        dump($outing->getParticipants());
+        if ($nbrParticipants < $limitSubs and $deadline > $today)
+        {
+            $outing->addParticipant($user);
 
-        return $this->redirectToRoute('outing_details');
+            $em->persist($outing);
+            $em->flush();
+            dump($outing->getParticipants());
+        }
+
+
+        return $this->redirectToRoute('outing_details', [
+            'id'=>$id
+        ]);
 
     }
 }
