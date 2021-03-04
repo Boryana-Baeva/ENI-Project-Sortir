@@ -180,11 +180,57 @@ dump('hello');
         $this->denyAccessUnlessGranted('ROLE_USER');
 
         $outingRepo = $em->getRepository(Outing::class);
+        $userRepo = $em->getRepository(User::class);
+        $user = $userRepo->find($id);
         $outing = $outingRepo->find($id);
+        $outings = $outingRepo->findAll();
 
-        $user = $this->getUser();
+        $deadline = $outing ->getEntryDeadline();
+        $limitSubs =  $outing -> getMaxNumberEntries();
+        $today = new \DateTime();
 
-        $nbrParticipants = $outing->getParticipants()->count();
+
+
+        $message = null;
+
+        if ($outing->getParticipants()->contains($user))
+        {
+            $message = "Vous êtes déjà inscrit(e) à cette sortie(".$outing->getName().").";
+            return $this->render('outing/search.html.twig', [
+                "message"=>$message,
+                "entitys"=>$outings
+            ]);
+        }
+       /* elseif ( $outing->$limitSubs() == $outing->getParticipants()->count())
+        {
+            $message = "Nombre de participants max atteint pour cette sortie (". $outing->getName() .").";
+            return  $this->redirectToRoute('outing_search', [
+                "message" => $message,
+                "entities" => $outings,
+            ]);
+        }*/
+        elseif ($outing->getState()->getId() != 3 )
+        {
+            $message = "Inscription à cette sortie (". $outing->getName() .") clôturée !.";
+        }
+
+
+        $outing->addParticipant($user);
+        dump($outing->getParticipants());
+        $user->addOutingSubscribed($outing);
+
+        $em->persist($outing);
+        $em->flush();
+
+        $this->addFlash("successDesInscription", "Vous êtes bien inscrit(e) à la sortie \" " . $outing->getName() . "\" !"   );
+
+        return $this->redirectToRoute('outing_details',[
+            "entities" =>$outings,
+            "message" => $message,
+            "id"=> $id
+        ]);
+
+        /*$nbrParticipants = $outing->getParticipants()->count();
 
         $deadline = $outing ->getEntryDeadline();
         $limitSubs =  $outing -> getMaxNumberEntries();
@@ -203,7 +249,7 @@ dump('hello');
 
         return $this->redirectToRoute('outing_details', [
             'id'=>$id
-        ]);
+        ]);*/
 
     }
 }

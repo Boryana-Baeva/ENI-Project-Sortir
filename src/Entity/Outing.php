@@ -227,7 +227,7 @@ class Outing
     /**
      * @param Collection $participants
      */
-    public function setParticipants( User $participants): self
+    public function setParticipants( Collection $participants): self
     {
         $this->participants = $participants;
     }
