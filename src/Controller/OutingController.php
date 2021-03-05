@@ -409,8 +409,9 @@ class OutingController extends AbstractController
             $monthAfter = new \DateTime();
             $monthAfter->setTimestamp($timestampMonthAfter);
 
+            $stateLabel = '';
 
-            if ($outing->getState()->getLabel() != State::CREATED || $outing->getState()->getLabel() != State::CANCELED)
+            if ($outing->getState()->getLabel() != State::CREATED && $outing->getState()->getLabel() != State::CANCELED)
             {
                 $stateLabel = State::OPEN;
                 if ($deadline < $today && $startDateTime > $today)
@@ -441,13 +442,22 @@ class OutingController extends AbstractController
                     $stateLabel = State::ARCHIVED;
                 }
 
-                if ($outing->getState()->getLabel() != $stateLabel)
-                {
-                    $state = $this->defineState($stateLabel, $em);
-                    $outing->setState($state);
-                    $em->persist($outing);
-                    $em->flush();
-                }
+            }
+            elseif($outing->getState()->getLabel() == State::CREATED)
+            {
+                $stateLabel = State::CREATED;
+            }
+            elseif($outing->getState()->getLabel() == State::CANCELED)
+            {
+                $stateLabel = State::CANCELED;
+            }
+
+            if ($outing->getState()->getLabel() != $stateLabel)
+            {
+                $state = $this->defineState($stateLabel, $em);
+                $outing->setState($state);
+                $em->persist($outing);
+                $em->flush();
             }
         }
     }
