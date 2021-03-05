@@ -13,19 +13,16 @@ use App\Form\PlaceType;
 use App\Form\SearchType;
 use App\Repository\CampusRepository;
 use App\Repository\OutingRepository;
-use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Finder\Exception\AccessDeniedException;
-use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Security\Core\User\UserInterface;
+
 
 class OutingController extends AbstractController
 {
+
     /**
      * @Route ("/outing/create", name="outing_create")
      */
@@ -52,8 +49,8 @@ class OutingController extends AbstractController
         {
             $outing->setOrganizer($this->getUser());
 
-            $stateRepo = $em->getRepository(State::class);
-            $stateCreated= $stateRepo->findOneBy(['label'=>'created']);
+            $stateCreated = $this->defineState(State::CREATED, $em);
+
             $outing->setState($stateCreated);
 
             $em->persist($outing);
@@ -70,6 +67,33 @@ class OutingController extends AbstractController
     }
 
     /**
+     * @Route ("/outing/publish/{id}", name="outing_publish")
+     */
+    public function publish($id, EntityManagerInterface $em)
+    {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_REMEMBERED');
+
+        $outingRepo = $em->getRepository(Outing::class);
+        $outing = $outingRepo->find($id);
+
+        if ($this->getUser() != $outing->getOrganizer())
+        {
+            $this->addFlash('failure', "Vous ne pouvez pas publier des sortie dont vous n'êtes pas l'otganisateur !");
+            return $this->redirectToRoute('outing_search');
+        }
+
+        $stateOpen = $this->defineState(State::OPEN, $em);
+
+        $outing->setState($stateOpen);
+        $em->persist($outing);
+        $em->flush();
+
+        $this->addFlash('success', "La sortie a été publiée !");
+        return $this->redirectToRoute('outing_search');
+
+    }
+
+    /**
      * @Route("/outing/list", name="outing_list")
      */
     public function list(EntityManagerInterface $em)
@@ -77,17 +101,22 @@ class OutingController extends AbstractController
         $outingRepo = $em->getRepository(Outing::class);
         $listOutings = $outingRepo->findAll();
 
+        $this->checkState($listOutings, $em);
+
+
         return $this->render('outing/list.html.twig', [
-            'listOutings' => $listOutings
+            'outingList' => $listOutings
         ]);
     }
 
     /**
      * @Route("/", name="outing_search")
      */
-    public function search(OutingRepository $repository, Request $request, CampusRepository $campusRepository)
+    public function search(EntityManagerInterface $em, Request $request)
     {
-        $outingList = $repository->findBy([], ["startDateTime" => "DESC"], 30);
+        $outingRepo = $em->getRepository(Outing::class);
+        $outingList = $outingRepo->findBy([], ["startDateTime" => "DESC"], 30);
+        $this->checkState($outingList, $em);
 
         $data = new SearchData();
         $searchForm = $this->createForm(SearchType::class, $data);
@@ -105,7 +134,7 @@ class OutingController extends AbstractController
                 'maxDate' => $request->query->get('maxDate')
                 ];
 
-            $outingList = $repository->findSearched($data, $searchParams);
+            $outingList = $outingRepo->findSearched($data, $searchParams);
 
         }
 
@@ -216,10 +245,17 @@ class OutingController extends AbstractController
             return $this->redirectToRoute('outing_search', []);
         }
 
-        if ($nbrParticipants < $limitSubs && $deadline > $today)
+        if ($nbrParticipants < $limitSubs && $deadline >= $today && $outing->getState()->getLabel() == State::OPEN)
         {
             $outing->addParticipant($user);
             $user->addOutingSubscribed($outing);
+
+            if ($nbrParticipants == $limitSubs)
+            {
+                $stateClosed = $this->defineState(State::CLOSED, $em);
+                $outing->setState($stateClosed);
+            }
+
             $em->persist($outing);
             $em->flush();
 
@@ -230,7 +266,7 @@ class OutingController extends AbstractController
                 'id'=>$id
             ]);
         }
-
+        $this->addFlash('failure',"Not working");
         return $this->redirectToRoute('outing_search', []);
 
     }
@@ -246,7 +282,10 @@ class OutingController extends AbstractController
         $outingRepo = $em->getRepository(Outing::class);
         $outing = $outingRepo->find($id);
 
+        $limitSubs =  $outing -> getMaxNumberEntries();
+        $nbrParticipants = $outing->getParticipants()->count();
         $startDate = $outing->getStartDateTime();
+        $deadline = $outing->getEntryDeadline();
         $today = new \DateTime();
 
         $userRepo = $em->getRepository(User::class);
@@ -258,10 +297,18 @@ class OutingController extends AbstractController
             return $this->redirectToRoute('outing_search', []);
         }
 
-        if ($startDate > $today)
+
+        if ($today < $deadline)
         {
             $outing->removeParticipant($user);
             $user->removeOutingSubscribed($outing);
+
+            if ($nbrParticipants < $limitSubs)
+            {
+                $stateOpen = $this->defineState(State::OPEN, $em);
+                $outing->setState($stateOpen);
+            }
+
             $em->persist($outing);
             $em->persist($user);
             $em->flush();
@@ -271,6 +318,9 @@ class OutingController extends AbstractController
             return $this->redirectToRoute('outing_details', [
                 'id'=>$id
             ]);
+        }
+        else {
+            $this->addFlash('failure', 'Vous ne pouvez pas vous désister d\'une sortie après la date de clôture !');
         }
 
         return $this->redirectToRoute('outing_search', []);
@@ -287,10 +337,8 @@ class OutingController extends AbstractController
         $today = new \DateTime();
 
         $outingRepo = $em->getRepository(Outing::class);
-        $stateRepo = $em->getRepository(State::class);
 
         $outing = $outingRepo->find($id);
-        $state= $stateRepo->find('5');
 
         $cancelForm = $this->createForm(CancelType::class, $outing);
 
@@ -300,9 +348,10 @@ class OutingController extends AbstractController
         {
             if($outing->getOrganizer()==$this->getUser() && $outing->getStartDateTime() > $today)
             {
-                $outing->setState($state);
+                $stateCanceled = $this->defineState(State::CANCELED, $em);
+                $outing->setState($stateCanceled);
+
                 $em->persist($outing);
-                $em->persist($state);
                 $em->flush();
 
                 $this->addFlash('success', 'Outing was canceled with success');
@@ -319,4 +368,80 @@ class OutingController extends AbstractController
             'outing'=>$outing
         ]);
     }
+
+
+    public function defineState($stateLabel, EntityManagerInterface $em)
+    {
+        $stateRepo = $em->getRepository(State::class);
+
+        if ($stateRepo->findOneBy(['label'=>$stateLabel]) == null)
+        {
+            $state = new State();
+            $state->setLabel($stateLabel);
+            $em->persist($state);
+            $em->flush();
+        }
+        else
+        {
+            $state = $stateRepo->findOneBy(['label'=>$stateLabel]);
+        }
+
+        return $state;
+    }
+
+    public function checkState($listOutings, EntityManagerInterface $em)
+    {
+        foreach ($listOutings as $outing)
+        {
+            $today = new \DateTime();
+            $minutes = $outing->getDuration();
+            $deadline = $outing->getEntryDeadline();
+
+            $startDateTime = $outing->getStartDateTime();
+            $startDateTimeString = $startDateTime->format('m/d/Y H:i');
+            $timestamp = strtotime("+{$minutes} minutes",strtotime($startDateTimeString));
+
+            $endDateTime = new \DateTime();
+            $endDateTime->setTimestamp($timestamp);
+            $endDateTimeString = $endDateTime->format('m/d/Y H:i');
+            $timestampMonthAfter = strtotime("+1 month",strtotime($endDateTimeString));
+
+            $monthAfter = new \DateTime();
+            $monthAfter->setTimestamp($timestampMonthAfter);
+
+
+            if ($outing->getState()->getLabel() != State::CREATED || $outing->getState()->getLabel() != State::CANCELED)
+            {
+                $stateLabel = State::OPEN;
+                if ($deadline < $today && $startDateTime > $today)
+                {
+                    $stateLabel = State::CLOSED;
+
+                }
+                elseif ($startDateTime <= $today && $endDateTime >= $today)
+                {
+                    $stateLabel = State::IN_PROGRESS;
+
+                }
+                elseif ($startDateTime < $today && $today <= $monthAfter)
+                {
+                    $stateLabel = State::PAST;
+
+                }
+                elseif ($today > $monthAfter)
+                {
+                    $stateLabel = State::ARCHIVED;
+                }
+
+                if ($outing->getState()->getLabel() != $stateLabel)
+                {
+                    $state = $this->defineState($stateLabel, $em);
+                    $outing->setState($state);
+                    $em->persist($outing);
+                    $em->flush();
+                }
+            }
+        }
+    }
+
 }

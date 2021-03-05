@@ -56,7 +56,7 @@
             <label> Longitude:</label>
             <p>{{ outing.place.longitude }}</p>
         </div>
-        {% if outing.state.label == 'canceled' %}
+        {% if outing.state.label == 'annulée' %}
         <div id="state">
             <label>Etat :</label>
             <p>{{ outing.state.label }}</p>
@@ -67,7 +67,7 @@
         </div>
         {% endif %}
 
-        {% if outing.state.label != 'canceled' %}
+        {% if outing.state.label != 'annulée' %}
         <!-- Table Participants -->
         <div id="listParticipants">
             <h6>Liste des participants inscrits</h6>

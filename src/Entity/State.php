@@ -10,6 +10,14 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class State
 {
+    const CREATED = 'créée';
+    const OPEN = 'ouverte';
+    const CLOSED = 'clôturée';
+    const IN_PROGRESS = 'activité en cours';
+    const PAST = 'passée';
+    const CANCELED = 'annulée';
+    const ARCHIVED = 'archivée';
+
     /**
      * @ORM\Id
      * @ORM\GeneratedValue

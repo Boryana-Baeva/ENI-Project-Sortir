@@ -14,6 +14,9 @@
     </thead>
     <tbody>
         {% for outing in outingList %}
+            {% if outing.state.label == 'créée' and outing.organizer != app.user %}
+            {% elseif outing.state.label == 'archivée' %}
+            {% else %}
         <tr>
             <th scope="row"><a href="{{ path('outing_details', {id: outing.id}) }}">{{ outing.name }}</a></th>
             <td>{{ outing.startDateTime | date('d/m/Y H:i') }}</td>
@@ -27,28 +30,30 @@
             <td><a href="{{ path('user_profile', {id: outing.organizer.id}) }}">{{ outing.organizer.username }}</a></td>
             <td>
                 <a href="{{ path('outing_details', {id: outing.id}) }}">Afficher</a>
+
                 {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
-                    {% if app.user in outing.participants and outing.startDateTime > date() %}
-                        <a href="{{ path('outing_unsubscribe', {id: outing.id}) }}">Se désister</a>
-                    {% else %}
-                        {% if app.user != outing.organizer and outing.entryDeadline > date() %}
-                            <a href="{{ path('outing_subscribe', {id: outing.id}) }}">S'inscrire</a>
-                        {% endif %}
-                    {% endif %}
-                    {% if app.user == outing.organizer %}
-                        <a href="{{ path('outing_modify', {id: outing.id}) }}">Modifier</a>
-                        {% if outing.state.label == 'open'and outing.startDateTime > date() %}
-                            <a href="{{ path('outing_cancel', {id: outing.id }) }}">Annuler</a>
+
+                        {%  if outing.state.label == 'ouverte' %}
+
+                            {% if app.user in outing.participants%}
+                                <a href="{{ path('outing_unsubscribe', {id: outing.id}) }}">Se désister</a>
+                            {% else %}
+                                {% if app.user != outing.organizer%}
+                                    <a href="{{ path('outing_subscribe', {id: outing.id}) }}">S'inscrire</a>
+                                {% else %}
+                                    <a href="{{ path('outing_modify', {id: outing.id}) }}">Modifier</a>
+                                    <a href="{{ path('outing_cancel', {id: outing.id }) }}">Annuler</a>
+                                {% endif %}
+                            {% endif %}
+
+                        {%  elseif outing.state.label == 'créée' and app.user == outing.organizer%}
+                            <a href="{{ path('outing_publish', {id: outing.id}) }}">Publier</a>
                         {% endif %}
 
-                        {%  if outing.state.label == 'created' %}
-                        <a href="#">Publier</a>
-                        {% endif %}
-
-                    {% endif %}
                 {% endif %}
             </td>
         </tr>
+            {% endif %}
         {% endfor %}
     </tbody>
 </table>

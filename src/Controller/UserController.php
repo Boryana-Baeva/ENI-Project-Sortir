@@ -19,6 +19,8 @@ class UserController extends AbstractController
      */
     public function show($id, EntityManagerInterface  $em): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_USER');
+
         $userRepo = $em->getRepository(User::class);
         $user = $userRepo->find($id);
 
