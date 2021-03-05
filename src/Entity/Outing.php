@@ -84,6 +84,13 @@ class Outing
      */
     private $organizer;
 
+    /**
+     * @ORM\Column (type="text", nullable=true)
+     */
+    private $cancelMotif;
+
+
+
     public function getId(): ?int
     {
         return $this->id;
@@ -253,5 +260,20 @@ class Outing
         $this->organizer = $organizer;
     }
 
+    /**
+     * @return mixed
+     */
+    public function getCancelMotif()
+    {
+        return $this -> cancelMotif;
+    }
+
+    /**
+     * @param mixed $cancelMotif
+     */
+    public function setCancelMotif($cancelMotif): void
+    {
+        $this -> cancelMotif = $cancelMotif;
+    }
 
 }

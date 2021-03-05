@@ -20,7 +20,10 @@
             <td>{{ outing.entryDeadline | date('d/m/Y')}}</td>
             <td>{{ outing.participants | length }} / {{ outing.maxNumberEntries }}</td>
             <td>{{ outing.state.label }}</td>
-            <td> X </td>
+            <td> {% if app.user in outing.participants %}
+                    X
+                {% endif %}
+            </td>
             <td><a href="{{ path('user_profile', {id: outing.organizer.id}) }}">{{ outing.organizer.username }}</a></td>
             <td>
                 <a href="{{ path('outing_details', {id: outing.id}) }}">Afficher</a>
@@ -34,9 +37,14 @@
                     {% endif %}
                     {% if app.user == outing.organizer %}
                         <a href="{{ path('outing_modify', {id: outing.id}) }}">Modifier</a>
+                        {% if outing.state.label == 'open'and outing.startDateTime > date() %}
+                            <a href="{{ path('outing_cancel', {id: outing.id }) }}">Annuler</a>
+                        {% endif %}
+
                         {%  if outing.state.label == 'created' %}
                         <a href="#">Publier</a>
                         {% endif %}
+
                     {% endif %}
                 {% endif %}
             </td>

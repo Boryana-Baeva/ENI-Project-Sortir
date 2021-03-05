@@ -7,6 +7,7 @@ use App\Entity\Outing;
 use App\Entity\Place;
 use App\Entity\State;
 use App\Entity\User;
+use App\Form\CancelType;
 use App\Form\OutingType;
 use App\Form\PlaceType;
 use App\Form\SearchType;
@@ -17,6 +18,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Finder\Exception\AccessDeniedException;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -273,5 +275,48 @@ class OutingController extends AbstractController
 
         return $this->redirectToRoute('outing_search', []);
 
+    }
+
+    /**
+     * @Route("/outing/cancel/{id}", name="outing_cancel")
+     */
+    public function cancel($id, EntityManagerInterface $em, Request $request)
+    {
+        $this->denyAccessUnlessGranted('ROLE_USER');
+
+        $today = new \DateTime();
+
+        $outingRepo = $em->getRepository(Outing::class);
+        $stateRepo = $em->getRepository(State::class);
+
+        $outing = $outingRepo->find($id);
+        $state= $stateRepo->find('5');
+
+        $cancelForm = $this->createForm(CancelType::class, $outing);
+
+        $cancelForm->handleRequest($request);
+
+        if ($cancelForm->isSubmitted() && $cancelForm->isValid() )
+        {
+            if($outing->getOrganizer()==$this->getUser() && $outing->getStartDateTime() > $today)
+            {
+                $outing->setState($state);
+                $em->persist($outing);
+                $em->persist($state);
+                $em->flush();
+
+                $this->addFlash('success', 'Outing was canceled with success');
+
+                return $this->redirectToRoute('outing_details', [
+                    'id'=>$id
+                ]);
+            }
+
+        }
+
+        return $this->render('outing/cancel.html.twig', [
+            'cancelForm'=>  $cancelForm->createView(),
+            'outing'=>$outing
+        ]);
     }
 }

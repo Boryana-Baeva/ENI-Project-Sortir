@@ -1,0 +1,50 @@
+{% extends 'default.html.twig' %}
+{% block title %}
+   Annuler
+{% endblock %}
+
+{% block main %}
+    <h2>Annuler une sortie</h2>
+
+    <div class="outingName">
+        <div>
+            <h5>Nom de la Sortie</h5>
+        </div>
+        <div>
+            <p>{{ outing.name }}</p>
+        </div>
+    </div>
+    <div class="outingDate">
+        <div>
+            <h5>Date de la sortie</h5>
+        </div>
+        <div>
+            <p>{{ outing.startDateTime | date ('d/m/Y') }}</p>
+        </div>
+    </div>
+    <div class="outingCampus">
+        <div>
+            <h5>Campus</h5>
+        </div>
+        <div>
+            <p>{{ outing.campus.name }}</p>
+        </div>
+    </div>
+    <div class="outingPlace">
+        <div>
+            <h5>Lieu</h5>
+        </div>
+        <div>
+            <p>{{ outing.place.name }}{{ outing.place.street }}{{ outing.place.city.zipCode }}{{ outing.place.city.name }}</p>
+        </div>
+    </div>
+    <div class="outingMotifCancel">
+        <label for="cancelMotif" >Motif</label>
+        {{ form_start(cancelForm) }}
+        {{ form_widget(cancelForm) }}
+        <button type="submit" >Enregistrer</button>
+        {{ form_end(cancelForm) }}
+        <button type="button"><a href="{{ path('outing_search') }}">Back</a></button>
+    </div>
+
+{%  endblock %}

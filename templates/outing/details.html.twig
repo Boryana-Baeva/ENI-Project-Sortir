@@ -56,7 +56,18 @@
             <label> Longitude:</label>
             <p>{{ outing.place.longitude }}</p>
         </div>
+        {% if outing.state.label == 'canceled' %}
+        <div id="state">
+            <label>Etat :</label>
+            <p>{{ outing.state.label }}</p>
+        </div>
+        <div id="motifCancel">
+            <label>Motif :</label>
+            <p>{{ outing.cancelMotif }}</p>
+        </div>
+        {% endif %}
 
+        {% if outing.state.label != 'canceled' %}
         <!-- Table Participants -->
         <div id="listParticipants">
             <h6>Liste des participants inscrits</h6>
@@ -84,10 +95,12 @@
             </table>
         </div>
 
+
         <!-- Button Modify -->
         <div class="btn btn-primary">
             <a href="{{ path('outing_modify', {id: outing.id}) }}">Modifier</a>
         </div>
+        {% endif %}
         <!-- Button Back -->
         <div class="btn btn-secondary">
             <a href="{{ path('outing_search') }}">Back</a>
