@@ -36,6 +36,17 @@
         </nav>
     </header>
 {% endblock %}
+
+{% block flashes %}
+
+    {% for messages in app.flashes %}
+        {% for message in messages %}
+            {{ message }}
+        {% endfor %}
+    {% endfor %}
+
+{% endblock %}
+
 {% block main %}
 
 {% endblock %}
