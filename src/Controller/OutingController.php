@@ -418,6 +418,14 @@ class OutingController extends AbstractController
                     $stateLabel = State::CLOSED;
 
                 }
+                elseif($outing->getParticipants()->count() >= $outing->getMaxNumberEntries())
+                {
+                    $stateLabel = State::CLOSED;
+                }
+                elseif($outing->getParticipants()->count() < $outing->getMaxNumberEntries())
+                {
+                    $stateLabel = State::OPEN;
+                }
                 elseif ($startDateTime <= $today && $endDateTime >= $today)
                 {
                     $stateLabel = State::IN_PROGRESS;

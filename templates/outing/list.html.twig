@@ -48,6 +48,9 @@
 
                         {%  elseif outing.state.label == 'créée' and app.user == outing.organizer%}
                             <a href="{{ path('outing_publish', {id: outing.id}) }}">Publier</a>
+
+                        {%  elseif outing.state.label == 'clôturée' and outing.entryDeadline > date() %}
+                            <a href="{{ path('outing_unsubscribe', {id: outing.id}) }}">Se désister</a>
                         {% endif %}
 
                 {% endif %}
