@@ -84,6 +84,8 @@ class OutingController extends AbstractController
 
         $outing->setState($stateOpen);
         $this->updateState($outing, $em);
+        $em->persist($outing);
+        $em->flush();
 
         $this->addFlash('success', "La sortie a été publiée !");
         return $this->redirectToRoute('outing_search');
@@ -144,7 +146,8 @@ class OutingController extends AbstractController
 
         return $this->render('outing/search.html.twig', [
             'outingList' => $outingList,
-            'searchForm' => $searchForm->createView()
+            'searchForm' => $searchForm->createView(),
+            'state' => new State()
         ]);
     }
 

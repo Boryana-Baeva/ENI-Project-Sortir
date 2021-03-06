@@ -14,8 +14,8 @@
     </thead>
     <tbody>
         {% for outing in outingList %}
-            {% if outing.state.label == 'créée' and outing.organizer != app.user %}
-            {% elseif outing.state.label == 'archivée' %}
+            {% if outing.state.label == constant('CREATED', state) and outing.organizer != app.user %}
+            {% elseif outing.state.label == constant('ARCHIVED', state) %}
             {% else %}
         <tr>
             <th scope="row"><a href="{{ path('outing_details', {id: outing.id}) }}">{{ outing.name }}</a></th>
@@ -33,7 +33,7 @@
 
                 {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
 
-                        {%  if outing.state.label == 'ouverte' %}
+                        {%  if outing.state.label == constant('OPEN', state) %}
 
                             {% if app.user in outing.participants%}
                                 <a href="{{ path('outing_unsubscribe', {id: outing.id}) }}">Se désister</a>
@@ -46,10 +46,10 @@
                                 {% endif %}
                             {% endif %}
 
-                        {%  elseif outing.state.label == 'créée' and app.user == outing.organizer%}
+                        {%  elseif outing.state.label == constant('CREATED', state) and app.user == outing.organizer%}
                             <a href="{{ path('outing_publish', {id: outing.id}) }}">Publier</a>
 
-                        {%  elseif outing.state.label == 'clôturée' and outing.entryDeadline > date() %}
+                        {%  elseif outing.state.label == constant('CLOSED', state) and outing.entryDeadline > date() %}
                             <a href="{{ path('outing_unsubscribe', {id: outing.id}) }}">Se désister</a>
                         {% endif %}
 
