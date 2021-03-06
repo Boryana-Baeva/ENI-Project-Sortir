@@ -11,8 +11,6 @@ use App\Form\CancelType;
 use App\Form\OutingType;
 use App\Form\PlaceType;
 use App\Form\SearchType;
-use App\Repository\CampusRepository;
-use App\Repository\OutingRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Finder\Exception\AccessDeniedException;
@@ -85,8 +83,7 @@ class OutingController extends AbstractController
         $stateOpen = $this->defineState(State::OPEN, $em);
 
         $outing->setState($stateOpen);
-        $em->persist($outing);
-        $em->flush();
+        $this->updateState($outing, $em);
 
         $this->addFlash('success', "La sortie a été publiée !");
         return $this->redirectToRoute('outing_search');
@@ -101,7 +98,10 @@ class OutingController extends AbstractController
         $outingRepo = $em->getRepository(Outing::class);
         $listOutings = $outingRepo->findAll();
 
-        $this->checkState($listOutings, $em);
+        foreach ($listOutings as $outing)
+        {
+            $this->updateState($outing, $em);
+        }
 
 
         return $this->render('outing/list.html.twig', [
@@ -116,7 +116,11 @@ class OutingController extends AbstractController
     {
         $outingRepo = $em->getRepository(Outing::class);
         $outingList = $outingRepo->findBy([], ["startDateTime" => "DESC"], 30);
-        $this->checkState($outingList, $em);
+
+        foreach ($outingList as $outing)
+        {
+            $this->updateState($outing, $em);
+        }
 
         $data = new SearchData();
         $searchForm = $this->createForm(SearchType::class, $data);
@@ -389,76 +393,73 @@ class OutingController extends AbstractController
         return $state;
     }
 
-    public function checkState($listOutings, EntityManagerInterface $em)
+    public function updateState(Outing $outing, EntityManagerInterface $em)
     {
-        foreach ($listOutings as $outing)
+        $today = new \DateTime();
+        $minutes = $outing->getDuration();
+
+        $deadline = $outing->getEntryDeadline();
+
+        $startDateTime = $outing->getStartDateTime();
+        $startDateTimeString = $startDateTime->format('m/d/Y H:i');
+        $timestamp = strtotime("+{$minutes} minutes",strtotime($startDateTimeString));
+
+        $endDateTime = new \DateTime();
+        $endDateTime->setTimestamp($timestamp);
+        $endDateTimeString = $endDateTime->format('m/d/Y H:i');
+        $timestampMonthAfter = strtotime("+1 month",strtotime($endDateTimeString));
+
+        $monthAfter = new \DateTime();
+        $monthAfter->setTimestamp($timestampMonthAfter);
+
+        $stateLabel = '';
+
+        if ($outing->getState()->getLabel() != State::CREATED && $outing->getState()->getLabel() != State::CANCELED)
         {
-            $today = new \DateTime();
-            $minutes = $outing->getDuration();
-            $deadline = $outing->getEntryDeadline();
-
-            $startDateTime = $outing->getStartDateTime();
-            $startDateTimeString = $startDateTime->format('m/d/Y H:i');
-            $timestamp = strtotime("+{$minutes} minutes",strtotime($startDateTimeString));
-
-            $endDateTime = new \DateTime();
-            $endDateTime->setTimestamp($timestamp);
-            $endDateTimeString = $endDateTime->format('m/d/Y H:i');
-            $timestampMonthAfter = strtotime("+1 month",strtotime($endDateTimeString));
-
-            $monthAfter = new \DateTime();
-            $monthAfter->setTimestamp($timestampMonthAfter);
-
-            $stateLabel = '';
-
-            if ($outing->getState()->getLabel() != State::CREATED && $outing->getState()->getLabel() != State::CANCELED)
+            if($outing->getParticipants()->count() >= $outing->getMaxNumberEntries())
             {
+                $stateLabel = State::CLOSED;
+            }
+            else {
                 $stateLabel = State::OPEN;
-                if ($deadline < $today && $startDateTime > $today)
-                {
-                    $stateLabel = State::CLOSED;
-
-                }
-                elseif($outing->getParticipants()->count() >= $outing->getMaxNumberEntries())
-                {
-                    $stateLabel = State::CLOSED;
-                }
-                elseif($outing->getParticipants()->count() < $outing->getMaxNumberEntries())
-                {
-                    $stateLabel = State::OPEN;
-                }
-                elseif ($startDateTime <= $today && $endDateTime >= $today)
-                {
-                    $stateLabel = State::IN_PROGRESS;
-
-                }
-                elseif ($startDateTime < $today && $today <= $monthAfter)
-                {
-                    $stateLabel = State::PAST;
-
-                }
-                elseif ($today > $monthAfter)
-                {
-                    $stateLabel = State::ARCHIVED;
-                }
-
             }
-            elseif($outing->getState()->getLabel() == State::CREATED)
+
+            if ($deadline < $today && $startDateTime > $today)
             {
-                $stateLabel = State::CREATED;
+                $stateLabel = State::CLOSED;
+
             }
-            elseif($outing->getState()->getLabel() == State::CANCELED)
+            elseif ($startDateTime <= $today && $endDateTime >= $today)
             {
-                $stateLabel = State::CANCELED;
+                $stateLabel = State::IN_PROGRESS;
+
+            }
+            elseif ($startDateTime < $today && $today <= $monthAfter)
+            {
+                $stateLabel = State::PAST;
+
+            }
+            elseif ($today > $monthAfter)
+            {
+                $stateLabel = State::ARCHIVED;
             }
 
-            if ($outing->getState()->getLabel() != $stateLabel)
-            {
-                $state = $this->defineState($stateLabel, $em);
-                $outing->setState($state);
-                $em->persist($outing);
-                $em->flush();
-            }
+        }
+        elseif($outing->getState()->getLabel() == State::CREATED)
+        {
+            $stateLabel = State::CREATED;
+        }
+        elseif($outing->getState()->getLabel() == State::CANCELED)
+        {
+            $stateLabel = State::CANCELED;
+        }
+
+        if ($outing->getState()->getLabel() != $stateLabel)
+        {
+            $state = $this->defineState($stateLabel, $em);
+            $outing->setState($state);
+            $em->persist($outing);
+            $em->flush();
         }
     }
 
