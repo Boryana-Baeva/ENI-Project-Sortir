@@ -3,6 +3,7 @@
 namespace App\Form;
 
 use App\Entity\User;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
@@ -55,6 +56,11 @@ class ModifyProfileType extends AbstractType
             ->add('campus', EntityType::class, [
                 'class'=>'App\Entity\Campus',
                 'choice_label'=>'name',
+                'required'=>false
+            ])
+            ->add('picture', FileType::class, [
+                'label'=>false,
+                'mapped'=>false,
                 'required'=>false
             ])
         ;

@@ -2,8 +2,10 @@
 
 namespace App\Controller;
 
+use App\Entity\Picture;
 use App\Entity\User;
 use App\Form\ModifyProfileType;
+use App\Form\PictureType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Finder\Exception\AccessDeniedException;
@@ -23,9 +25,14 @@ class UserController extends AbstractController
 
         $userRepo = $em->getRepository(User::class);
         $user = $userRepo->find($id);
+        $pic = $user->getProfilePicture();
+
+
 
         return $this->render('user/profile.html.twig', [
-            "user"=> $user
+            "user"=> $user,
+            "profilePicture"=>$pic
+
         ]);
     }
 
@@ -44,12 +51,31 @@ class UserController extends AbstractController
         $userRepo = $em->getRepository(User::class);
         $user = $userRepo->find($id);
 
-        $modifyForm = $this->createForm(ModifyProfileType::class, $user);
 
+        $modifyForm = $this->createForm(ModifyProfileType::class, $user);
         $modifyForm->handleRequest($request);
+
 
         if ($modifyForm->isSubmitted() && $modifyForm->isValid())
         {
+            //Récupération de l'image transmise
+                $profilePicture = $modifyForm['picture']->getData();
+
+            if ($profilePicture){
+
+                //génération d'un nouveau nom
+                $newName =md5(uniqid()).'.'.$profilePicture->guessExtension();
+
+
+                $profilePicture->move(
+                    $this->getParameter('pictures_directory'),
+                    $newName
+                );
+
+                $user->setProfilePicture($newName);
+            }
+
+
             $em->persist($user);
             $em->flush();
 

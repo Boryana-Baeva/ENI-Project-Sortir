@@ -84,6 +84,11 @@ class User implements UserInterface
      */
     private $outingsOrganized;
 
+    /**
+     * @ORM\Column (type="string", length=255, nullable=true)
+     */
+    private $profilePicture;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -225,6 +230,7 @@ class User implements UserInterface
         return $this;
     }
 
+
     /**
      * @param Collection $outingsSubscribed
      */
@@ -264,5 +270,21 @@ class User implements UserInterface
     public function eraseCredentials()
     {
 
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getProfilePicture()
+    {
+        return $this -> profilePicture;
+    }
+
+    /**
+     * @param mixed $profilePicture
+     */
+    public function setProfilePicture($profilePicture): void
+    {
+        $this -> profilePicture = $profilePicture;
     }
 }
