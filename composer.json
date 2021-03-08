@@ -26,6 +26,7 @@
         "symfony/proxy-manager-bridge": "5.2.*",
         "symfony/requirements-checker": "^2.0",
         "symfony/security-bundle": "5.2.*",
+        "symfony/serializer": "5.2.*",
         "symfony/stopwatch": "5.2.*",
         "symfony/twig-bundle": "5.2.*",
         "symfony/validator": "5.2.*",
