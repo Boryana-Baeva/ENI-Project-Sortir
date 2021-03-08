@@ -9,6 +9,7 @@ html, body {
     top: 25%;
     height: 50%;
 }
+
 .monProfil {
     width: 100%;
     margin-bottom: 20px;
@@ -24,6 +25,7 @@ html, body {
     text-decoration: none;
     color: #F5F5F5;
 }
+
 .btn a:visited {
     color: #F5F5F5;
 }
@@ -46,9 +48,24 @@ html, body {
     text-align:left;
 }
 
+
+
+
 @media screen and (max-width: 768px) {
     body{
         overflow-y: hidden;
     }
+
+    .hiddenMobile {
+        display: none
+    }
 }
+
+@media screen and (min-width: 768px) {
+
+    .hiddenDesktop {
+        display: none
+    }
+}
+
 

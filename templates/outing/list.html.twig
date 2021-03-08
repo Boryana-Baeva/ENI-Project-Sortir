@@ -4,12 +4,14 @@
         <tr>
             <th scope="col">Nom de la sortie</th>
             <th scope="col">Date de la sortie</th>
-            <th scope="col">Clôture</th>
-            <th scope="col">Inscrits/Places</th>
-            <th scope="col">Etat</th>
-            <th scope="col">Inscrit</th>
-            <th scope="col">Organisateur</th>
-            <th scope="col">Actions</th>
+            <th class="hiddenDesktop" scope="col">Lieu</th>
+            <th class="hiddenMobile" scope="col">Clôture</th>
+            <th class="hiddenMobile" scope="col">Inscrits/Places</th>
+            <th class="hiddenMobile" scope="col">Etat</th>
+            <th class="hiddenMobile" scope="col">Inscrit</th>
+            <th class="hiddenMobile" scope="col">Organisateur</th>
+            <th class="hiddenMobile" scope="col">Actions</th>
+
         </tr>
     </thead>
     <tbody>
@@ -20,15 +22,16 @@
         <tr>
             <th scope="row"><a href="{{ path('outing_details', {id: outing.id}) }}">{{ outing.name }}</a></th>
             <td>{{ outing.startDateTime | date('d/m/Y H:i') }}</td>
-            <td>{{ outing.entryDeadline | date('d/m/Y')}}</td>
-            <td>{{ outing.participants | length }} / {{ outing.maxNumberEntries }}</td>
-            <td>{{ outing.state.label }}</td>
-            <td> {% if app.user in outing.participants %}
+            <td class="hiddenDesktop">{{ outing.place.city.name}}</td>
+            <td class="hiddenMobile">{{ outing.entryDeadline | date('d/m/Y')}}</td>
+            <td class="hiddenMobile">{{ outing.participants | length }} / {{ outing.maxNumberEntries }}</td>
+            <td class="hiddenMobile">{{ outing.state.label }}</td>
+            <td class="hiddenMobile"> {% if app.user in outing.participants %}
                     X
                 {% endif %}
             </td>
-            <td><a href="{{ path('user_profile', {id: outing.organizer.id}) }}">{{ outing.organizer.username }}</a></td>
-            <td>
+            <td class="hiddenMobile"><a href="{{ path('user_profile', {id: outing.organizer.id}) }}">{{ outing.organizer.username }}</a></td>
+            <td class="hiddenMobile">
                 <a href="{{ path('outing_details', {id: outing.id}) }}">Afficher</a>
 
                 {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
