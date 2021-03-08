@@ -5,25 +5,24 @@
 {% endblock %}
 
 {% block main %}
-
-    {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
-        <div>
-            <div id="dateDuJour">
-                <h5>Date du jour: {{ "now" | date('d/m/Y') }} </h5>
+        {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
+            <div>
+                <div id="dateDuJour">
+                    <h5>Date du jour: {{ "now" | date('d/m/Y') }} </h5>
+                </div>
+                <div id="participant">
+                    <h5>Participant: {{ app.user.username }} </h5>
+                </div>
             </div>
-            <div id="participant">
-                <h5>Participant: {{ app.user.username }} </h5>
-            </div>
-        </div>
-    {% endif %}
+        {% endif %}
 
-    <div class="filters">
-        {{ form_start(searchForm) }}
-        {{ form_widget(searchForm) }}
-        <button class="btn btn-success" type="submit">Rechercher</button>
-        {{ form_end(searchForm) }}
-        </div>
-    {% embed 'outing/list.html.twig' %}
-    {% endembed %}
+        <div class="filters">
+            {{ form_start(searchForm) }}
+            {{ form_widget(searchForm) }}
+            <button class="btn btn-success" type="submit">Rechercher</button>
+            {{ form_end(searchForm) }}
+            </div>
+        {% embed 'outing/list.html.twig' %}
+        {% endembed %}
 
 {% endblock %}

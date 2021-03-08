@@ -107,7 +107,8 @@ class OutingController extends AbstractController
 
 
         return $this->render('outing/list.html.twig', [
-            'outingList' => $listOutings
+            'outingList' => $listOutings,
+            'state' => new State()
         ]);
     }
 
