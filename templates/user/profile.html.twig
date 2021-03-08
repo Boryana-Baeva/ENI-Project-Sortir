@@ -1,45 +1,81 @@
 {% extends 'default.html.twig' %}
 {%  block main %}
-    {% if app.user == user %}
-        <h1>Mon Profil</h1>
-    {% else %}
-        <h1>{{ user.username }}</h1>
-    {% endif %}
 
-{% if profilePicture is defined %}
-    {% if profilePicture is null %}
-        <img src="{{ asset('uploads/default_avatar.jpg') }}" width="250">
-    {% else %}
-        <img src="{{ asset('uploads/'~ profilePicture) }}" width="250">
-    {% endif %}
-{% endif %}
-    <div id="showProfile">
-       <div id="pseudo">
-           <label > Pseudo:</label>
-           <p>{{ user.username }}</p>
-       </div>
-        <div id="prenom">
-            <label > Prénom:</label>
-            <p>{{ user.firstName }}</p>
-        </div>
-        <div id="nom">
-            <label > Nom:</label>
-            <p>{{ user.lastName}}</p>
-        </div>
-        <div id="email">
-            <label > Email:</label>
-            <p>{{ user.email }}</p>
-        </div>
-        <div id="campus">
-            <label > Campus:</label>
-            <p>{{ user.campus.name }}</p>
-        </div>
 
-        {% if user.id == app.user.id %}
-        <button type="button" class="btn btn-primary"><a href="{{ path('user_modify', {id: user.id}) }}">Modifier</a></button>
-        {% endif %}
-        <button type="button" class="btn btn-secondary"><a href="{{ path('outing_search') }}">Back</a></button>
+
+<div class="container-fluid h-100 ">
+    <div class="container block">
+        <div class="row border rounded">
+            <div class="monProfil text-center m-md-2">
+                {% if app.user == user %}
+                    <h1>Mon Profil</h1>
+                {% else %}
+                    <h1>{{ user.username }}</h1>
+                {% endif %}
+                {% if profilePicture is defined %}
+                    {% if profilePicture is null %}
+                        <img src="{{ asset('uploads/default_avatar.jpg') }}" width="250">
+                    {% else %}
+                        <img src="{{ asset('uploads/'~ profilePicture) }}" width="250">
+                    {% endif %}
+                {% endif %}
+                <div class="info">
+                    <table class="table">
+                        <tbody>
+                        <tr>
+                            <th scope="row">Pseudo</th>
+                            <td>{{ user.username }}</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Prénom</th>
+                            <td>{{ user.firstName }}</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Nom</th>
+                            <td>{{ user.lastName }}</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Email</th>
+                            <td>{{ user.email }}</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Campus</th>
+                            <td>{{ user.campus.name }}</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    {#
+                   <div class="mb-2" id="pseudo">
+                       <label class="d-inline"> Pseudo:</label>
+                       <p class="d-inline">{{ user.username }}</p>
+                   </div>
+                    <div class="mb-2" id="prenom">
+                        <label class="d-inline"> Prénom:</label>
+                        <p class="d-inline">{{ user.firstName }}</p>
+                    </div>
+                    <div class="mb-2" id="nom">
+                        <label class="d-inline"> Nom:</label>
+                        <p class="d-inline">{{ user.lastName}}</p>
+                    </div>
+                    <div class="mb-2" id="email">
+                        <label class="d-inline"> Email:</label>
+                        <p class="d-inline">{{ user.email }}</p>
+                    </div>
+                    <div class="mb-2" id="campus">
+                        <label class="d-inline"> Campus:</label>
+                        <p class="d-inline">{{ user.campus.name }}</p>
+                    </div>
+                </div>
+                    #}
+
+                {% if user.id == app.user.id %}
+                <button type="button" class="btn btn-primary"><a href="{{ path('user_modify', {id: user.id}) }}">Modifier</a></button>
+                {% endif %}
+                <button type="button" class="btn btn-secondary"><a href="{{ path('outing_search') }}">Back</a></button>
+            </div>
+        </div>
     </div>
+</div>
 
 {% endblock %}
 {% block title %}{{ parent()}} Profile{% endblock %}
