@@ -17,11 +17,11 @@ security:
                 authenticators:
                     - App\Security\LoginAuthenticator
             form_login:
-                default_target_path: outing_search
+                default_target_path: home
             logout:
                 path: app_logout
                 # where to redirect after logout
-                target: outing_search
+                target: home
             remember_me:
                 secret: '%kernel.secret%'
                 lifetime: 604800 # 1 week in seconds
