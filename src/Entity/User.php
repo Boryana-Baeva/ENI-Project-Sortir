@@ -256,10 +256,15 @@ class User implements UserInterface
     }
 
 
-
     public function getRoles()
     {
-        return ['ROLE_USER'];
+        $roles = ['ROLE_USER'];
+
+        if ($this->getAdmin())
+        {
+            $roles[] = 'ROLE_ADMIN';
+        }
+        return $roles;
     }
 
     public function getSalt()

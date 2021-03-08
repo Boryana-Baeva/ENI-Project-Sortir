@@ -1,9 +1,17 @@
 {% extends 'default.html.twig' %}
 {%  block main %}
-{# comment #}
-    <h1>Mon Profil</h1>
+    {% if app.user == user %}
+        <h1>Mon Profil</h1>
+    {% else %}
+        <h1>{{ user.username }}</h1>
+    {% endif %}
+
 {% if profilePicture is defined %}
-    <img src="{{ asset('uploads/'~ profilePicture) }}" width="250">
+    {% if profilePicture is null %}
+        <img src="{{ asset('uploads/default_avatar.jpg') }}" width="250">
+    {% else %}
+        <img src="{{ asset('uploads/'~ profilePicture) }}" width="250">
+    {% endif %}
 {% endif %}
     <div id="showProfile">
        <div id="pseudo">
