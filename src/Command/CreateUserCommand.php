@@ -15,7 +15,6 @@ use Symfony\Component\Serializer\Encoder\YamlEncoder;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 use Symfony\Component\Serializer\Serializer;
 
-
 /**
  * @property string dataDirectory
  * @property SymfonyStyle io
@@ -105,7 +104,7 @@ class CreateUserCommand extends Command
                         ->setFirstName($row['first_name'])
                         ->setLastName($row['last_name'])
                         ->setEmail($row['email'])
-                        ->setPassword('badpassword')
+                        ->setPassword($row['password'])
                         ->setAdmin(false)
                         ->setActive(true);
                     $this->entityManager->persist($user);

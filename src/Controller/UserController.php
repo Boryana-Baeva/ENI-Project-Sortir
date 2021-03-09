@@ -63,6 +63,7 @@ class UserController extends AbstractController
 
         if ($modifyForm->isSubmitted() && $modifyForm->isValid())
         {
+
             //Récupération de l'image transmise
                 $profilePicture = $modifyForm['picture']->getData();
 
@@ -96,7 +97,7 @@ class UserController extends AbstractController
     /**
      * @Route("/register", name="app_register")
      */
-    public function register(Request $request, UserPasswordEncoderInterface $passwordEncoder, GuardAuthenticatorHandler $guardHandler, LoginAuthenticator $authenticator): Response
+    public function register(Request $request, GuardAuthenticatorHandler $guardHandler, LoginAuthenticator $authenticator): Response
     {
         if ($this->getUser()) {
             return $this->redirectToRoute('home');
@@ -107,15 +108,12 @@ class UserController extends AbstractController
         $user->setActive(true);
         $form = $this->createForm(RegistrationFormType::class, $user);
         $form->handleRequest($request);
+        $plainPassword = $form->get('plainPassword')->getData();
+
 
         if ($form->isSubmitted() && $form->isValid()) {
             // encode the plain password
-            $user->setPassword(
-                $passwordEncoder->encodePassword(
-                    $user,
-                    $form->get('plainPassword')->getData()
-                )
-            );
+            $user->setPassword($plainPassword);
 
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($user);
@@ -138,7 +136,7 @@ class UserController extends AbstractController
     /**
      * @Route("/admin/user/add", name="user_add")
      */
-    public function add(Request $request, UserPasswordEncoderInterface $passwordEncoder): Response
+    public function add(Request $request): Response
     {
 
         $user = new User();
@@ -146,15 +144,11 @@ class UserController extends AbstractController
         $user->setActive(true);
         $form = $this->createForm(UserType::class, $user);
         $form->handleRequest($request);
+        $plainPassword = $form->get('plainPassword')->getData();
 
         if ($form->isSubmitted() && $form->isValid()) {
-            // encode the plain password
-            $user->setPassword(
-                $passwordEncoder->encodePassword(
-                    $user,
-                    $form->get('plainPassword')->getData()
-                )
-            );
+
+            $user->setPassword($plainPassword);
 
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($user);
