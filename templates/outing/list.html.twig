@@ -1,5 +1,5 @@
 <!-- Table Outings List -->
-{* *}
+
 <div id="outingsList">
     <table class="table">
         <thead>
@@ -29,12 +29,12 @@
                 <td class="hiddenMobile">{{ outing.participants | length }} / {{ outing.maxNumberEntries }}</td>
                 <td class="hiddenMobile">{{ outing.state.label }}</td>
                 <td class="hiddenMobile"> {% if app.user in outing.participants %}
-                        X
+                        <i class="fas fa-check"></i>
                     {% endif %}
                 </td>
                 <td class="hiddenMobile"><a href="{{ path('user_profile', {id: outing.organizer.id}) }}">{{ outing.organizer.username }}</a></td>
                 <td class="hiddenMobile">
-                    <a href="{{ path('outing_details', {id: outing.id}) }}">Afficher</a>
+                    <a href="{{ path('outing_details', {id: outing.id}) }}"><i class="fas fa-info-circle"></i></a>
 
                     {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
 
@@ -46,13 +46,13 @@
                                     {% if app.user != outing.organizer%}
                                         <a href="{{ path('outing_subscribe', {id: outing.id}) }}">S'inscrire</a>
                                     {% else %}
-                                        <a href="{{ path('outing_modify', {id: outing.id}) }}">Modifier</a>
-                                        <a href="{{ path('outing_cancel', {id: outing.id }) }}">Annuler</a>
+                                        <a href="{{ path('outing_modify', {id: outing.id}) }}"><i class="far fa-edit"></i></a>
+                                        <a href="{{ path('outing_cancel', {id: outing.id }) }}"><i class="far fa-times-circle"></i></a>
                                     {% endif %}
                                 {% endif %}
 
                             {%  elseif outing.state.label == constant('CREATED', state) and app.user == outing.organizer%}
-                                <a href="{{ path('outing_publish', {id: outing.id}) }}">Publier</a>
+                                <a href="{{ path('outing_publish', {id: outing.id}) }}"><i class="fas fa-plus"></i></a>
 
                             {%  elseif outing.state.label == constant('CLOSED', state) and outing.entryDeadline > date() %}
                                 <a href="{{ path('outing_unsubscribe', {id: outing.id}) }}">Se désister</a>

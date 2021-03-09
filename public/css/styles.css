@@ -48,10 +48,52 @@ html, body {
     text-align:left;
 }
 
+.infoSortie th {
+    text-align:right;
+
+}
+
+.infoSortie td {
+    text-align:left;
+    padding-right: 80px;
+}
+
+#listParticipants {
+    width: 100%;
+    min-width:800px;
+}
+
 #outingsList {
     height: 500px;
     overflow: auto;
 }
+
+.welcomeInfo {
+    margin-right: 30px;
+    margin-top: 20px;
+    font-size: small;
+}
+
+.welcomeInfo p {
+    margin-bottom: 0.5rem;
+}
+
+.fa-check {
+    color: greenyellow;
+}
+
+.fa-plus {
+    color: greenyellow;
+}
+
+.fa-times-circle {
+    color: lightslategrey;
+}
+
+.fa-edit {
+    color: cornflowerblue;
+}
+
 
 @media screen and (max-width: 768px) {
     body{

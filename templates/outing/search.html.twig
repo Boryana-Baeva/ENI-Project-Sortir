@@ -6,12 +6,12 @@
 
 {% block main %}
         {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
-            <div>
+            <div class="welcomeInfo text-right">
                 <div id="dateDuJour">
-                    <h5>Date du jour: {{ "now" | date('d/m/Y') }} </h5>
+                    <p><i class="far fa-calendar-alt"></i> Date du jour: {{ "now" | date('d/m/Y') }} </p>
                 </div>
                 <div id="participant">
-                    <h5>Participant: {{ app.user.username }} </h5>
+                    <p><i class="fas fa-user"></i> Participant: {{ app.user.username }} </p>
                 </div>
             </div>
         {% endif %}
