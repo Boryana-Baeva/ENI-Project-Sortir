@@ -72,13 +72,13 @@ class ResetPasswordController extends AbstractController
 
            // Pour envoyer le mail DECOMMENTER LE COMENTAIRE D'EN DESSOUS
 
-          /* $message = (new \Swift_Message('Réinitialisation de votre mdp'))
+           /*$message = (new \Swift_Message('Réinitialisation de votre mdp'))
                ->setFrom('enisortirproject@gmail.com')
                ->setTo($user->getEmail())
                ->setBody($this->renderView('reset_password/email.html.twig', ['url'=>$url]));
            //on envoi l'email
            $mailer->send($message);
-           $this->addFlash('message','un e-mail de réinitialisation de mot de passe vous a été envoyé');**/
+           $this->addFlash('message','un e-mail de réinitialisation de mot de passe vous a été envoyé');*/
 
            return $this->redirectToRoute('app_check_email', ['token'=>$token]);
        }

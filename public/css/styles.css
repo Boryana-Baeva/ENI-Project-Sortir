@@ -95,14 +95,19 @@ html, body {
 }
 
 
-@media screen and (max-width: 768px) {
+@media screen and (min-width: 375px ) and (max-width: 668px){
     body{
         overflow-y: hidden;
     }
-/* Bob */
-    .hiddenMobile {
-        display: none
+
+    .mobile {
+        display: none;
     }
+
+    .hiddenMobile{
+        display: none;
+    }
+
 }
 
 @media screen and (min-width: 768px) {
@@ -110,13 +115,10 @@ html, body {
     .hiddenDesktop {
         display: none
     }
+
 }
 
-.bob{
-    border: 1px solid black;
-}
-
-.check {
+.list-group{
     list-style: none;
 }
-/* test */
+

@@ -16,34 +16,44 @@
             </div>
         {% endif %}
 
-        <div class="filters">
+        <div class="container col-md-12 mobile">
+            <h1>Filtrer les sorties</h1>
             {{ form_start(searchForm) }}
-            <div class="container-fluid bob">
                 <div class="row">
-                    {{ form_row(searchForm.campus,{'attr':{'class':'col-sm-12 offset-md-2'}}) }}
-                    {{ form_row(searchForm.q,{'attr':{'class':'col-sm-12 offset-md-2'}}) }}
-                    <ul class="list-group">
-                        <li class="check">{{ form_row(searchForm.organizer) }}</li>
-                        <li class="check">{{ form_row(searchForm.pastOutings) }}</li>
-                        <li class="check">{{ form_row(searchForm.subscribed) }}</li>
-                        <li class="check">{{ form_row(searchForm.unsubscribed) }}</li>
-                    </ul>
-                    {{ form_row(searchForm.minDate,{'attr':{'class':'col-sm-12'}}) }}
-                    {{ form_row(searchForm.maxDate,{'attr':{'class':'col-sm-12'}}) }}
+                    <div class="filters_1 col-md-5 ">
+                        <div id="campus row ">
+                            {{ form_row(searchForm.campus) }}
+                        </div>
+                        <div id="searchbar row">
+                            {{ form_row(searchForm.q ) }}
+                        </div>
+                        <div id="datesFilter row">
+                            <div id="dateMin">
+                                {{ form_row(searchForm.minDate) }}
+                            </div>
+                            <div id="dateMax">
+                                {{ form_row(searchForm.maxDate) }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="filters_2 col-md-5">
+                        <div id="checkbox ">
+                            <ul class="list-group">
+                                <li class="check">{{ form_row(searchForm.organizer) }}</li>
+                                <li class="check">{{ form_row(searchForm.pastOutings) }}</li>
+                                <li class="check">{{ form_row(searchForm.subscribed) }}</li>
+                                <li class="check">{{ form_row(searchForm.unsubscribed) }}</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class ="filters_btn col-md-2">
+                        <div id="rechercher">
+                            <button class="btn btn-success" type="submit">Rechercher</button>
+                        </div>
+                    </div>
                 </div>
-            </div>
-
-
-
-
-
-
-
-
-    {#  {{ form_widget(searchForm) }} #}
-            <button class="btn btn-success" type="submit">Rechercher</button>
             {{ form_end(searchForm) }}
-            </div>
+        </div>
         {% embed 'outing/list.html.twig' %}
         {% endembed %}
 
