@@ -1,0 +1,14 @@
+{% extends 'default.html.twig' %}
+
+{% block title %}Password Reset Email Sent{% endblock %}
+
+{% block main %}
+    <p>
+        An email has been sent that contains a link that you can click to reset your password
+
+    </p>
+
+    <p>If you don't receive an email please check your spam folder or try again</p>
+
+    <a href="{{ path('app_reset_password',{token: }) }}">Réinitialiser son mdp</a>
+{% endblock %}

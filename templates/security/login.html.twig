@@ -3,6 +3,11 @@
 {% block title %} {{ parent() }} | Login{% endblock %}
 
 {% block main %}
+    {%  for message in app.flashes('message') %}
+        <div class="alert alert-success" role="alert">
+            {{ message }}
+        </div>
+    {% endfor %}
     <div class="container-fluid h-100 ">
         <div class="container block">
             <div class="row border rounded p-md-4">
@@ -36,6 +41,10 @@
                             <label>
                                 <input type="checkbox" name="_remember_me"> Remember me
                             </label>
+                        </div>
+
+                        <div class="forgotPassword mb-3">
+                             <a href="{{ path('app_forgotten_password') }}">Mot de passe oublié </a>
                         </div>
 
 

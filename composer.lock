@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "32c3deecf1344980f38761e4a7ee490a",
+    "content-hash": "02935c8255a58024d3496c448b37b438",
     "packages": [
         {
             "name": "composer/package-versions-deprecated",
@@ -1397,6 +1397,74 @@
             "time": "2020-07-30T16:57:33+00:00"
         },
         {
+            "name": "egulias/email-validator",
+            "version": "2.1.25",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/egulias/EmailValidator.git",
+                "reference": "0dbf5d78455d4d6a41d186da50adc1122ec066f4"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/egulias/EmailValidator/zipball/0dbf5d78455d4d6a41d186da50adc1122ec066f4",
+                "reference": "0dbf5d78455d4d6a41d186da50adc1122ec066f4",
+                "shasum": ""
+            },
+            "require": {
+                "doctrine/lexer": "^1.0.1",
+                "php": ">=5.5",
+                "symfony/polyfill-intl-idn": "^1.10"
+            },
+            "require-dev": {
+                "dominicsayers/isemail": "^3.0.7",
+                "phpunit/phpunit": "^4.8.36|^7.5.15",
+                "satooshi/php-coveralls": "^1.0.1"
+            },
+            "suggest": {
+                "ext-intl": "PHP Internationalization Libraries are required to use the SpoofChecking validation"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2.1.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Egulias\\EmailValidator\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Eduardo Gulias Davis"
+                }
+            ],
+            "description": "A library for validating emails against several RFCs",
+            "homepage": "https://github.com/egulias/EmailValidator",
+            "keywords": [
+                "email",
+                "emailvalidation",
+                "emailvalidator",
+                "validation",
+                "validator"
+            ],
+            "support": {
+                "issues": "https://github.com/egulias/EmailValidator/issues",
+                "source": "https://github.com/egulias/EmailValidator/tree/2.1.25"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/egulias",
+                    "type": "github"
+                }
+            ],
+            "time": "2020-12-29T14:50:06+00:00"
+        },
+        {
             "name": "friendsofphp/proxy-manager-lts",
             "version": "v1.0.3",
             "source": {
@@ -2104,6 +2172,81 @@
                 "source": "https://github.com/sensiolabs/SensioFrameworkExtraBundle/tree/v6.1.1"
             },
             "time": "2021-02-23T11:50:58+00:00"
+        },
+        {
+            "name": "swiftmailer/swiftmailer",
+            "version": "v6.2.7",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/swiftmailer/swiftmailer.git",
+                "reference": "15f7faf8508e04471f666633addacf54c0ab5933"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/swiftmailer/swiftmailer/zipball/15f7faf8508e04471f666633addacf54c0ab5933",
+                "reference": "15f7faf8508e04471f666633addacf54c0ab5933",
+                "shasum": ""
+            },
+            "require": {
+                "egulias/email-validator": "^2.0|^3.1",
+                "php": ">=7.0.0",
+                "symfony/polyfill-iconv": "^1.0",
+                "symfony/polyfill-intl-idn": "^1.10",
+                "symfony/polyfill-mbstring": "^1.0"
+            },
+            "require-dev": {
+                "mockery/mockery": "^1.0",
+                "symfony/phpunit-bridge": "^4.4|^5.0"
+            },
+            "suggest": {
+                "ext-intl": "Needed to support internationalized email addresses"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "6.2-dev"
+                }
+            },
+            "autoload": {
+                "files": [
+                    "lib/swift_required.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Chris Corbyn"
+                },
+                {
+                    "name": "Fabien Potencier",
+                    "email": "fabien@symfony.com"
+                }
+            ],
+            "description": "Swiftmailer, free feature-rich PHP mailer",
+            "homepage": "https://swiftmailer.symfony.com",
+            "keywords": [
+                "email",
+                "mail",
+                "mailer"
+            ],
+            "support": {
+                "issues": "https://github.com/swiftmailer/swiftmailer/issues",
+                "source": "https://github.com/swiftmailer/swiftmailer/tree/v6.2.7"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/fabpot",
+                    "type": "github"
+                },
+                {
+                    "url": "https://tidelift.com/funding/github/packagist/swiftmailer/swiftmailer",
+                    "type": "tidelift"
+                }
+            ],
+            "time": "2021-03-09T12:30:35+00:00"
         },
         {
             "name": "symfony/apache-pack",
@@ -3991,6 +4134,87 @@
             "time": "2021-01-27T10:01:46+00:00"
         },
         {
+            "name": "symfony/mailer",
+            "version": "v5.2.4",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symfony/mailer.git",
+                "reference": "0ca4de7d25e520dfaf59da41c02381264f285d7d"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/symfony/mailer/zipball/0ca4de7d25e520dfaf59da41c02381264f285d7d",
+                "reference": "0ca4de7d25e520dfaf59da41c02381264f285d7d",
+                "shasum": ""
+            },
+            "require": {
+                "egulias/email-validator": "^2.1.10",
+                "php": ">=7.2.5",
+                "psr/log": "~1.0",
+                "symfony/event-dispatcher": "^4.4|^5.0",
+                "symfony/mime": "^5.2",
+                "symfony/polyfill-php80": "^1.15",
+                "symfony/service-contracts": "^1.1|^2"
+            },
+            "conflict": {
+                "symfony/http-kernel": "<4.4"
+            },
+            "require-dev": {
+                "symfony/amazon-mailer": "^4.4|^5.0",
+                "symfony/google-mailer": "^4.4|^5.0",
+                "symfony/http-client-contracts": "^1.1|^2",
+                "symfony/mailchimp-mailer": "^4.4|^5.0",
+                "symfony/mailgun-mailer": "^4.4|^5.0",
+                "symfony/mailjet-mailer": "^4.4|^5.0",
+                "symfony/messenger": "^4.4|^5.0",
+                "symfony/postmark-mailer": "^4.4|^5.0",
+                "symfony/sendgrid-mailer": "^4.4|^5.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Symfony\\Component\\Mailer\\": ""
+                },
+                "exclude-from-classmap": [
+                    "/Tests/"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Fabien Potencier",
+                    "email": "fabien@symfony.com"
+                },
+                {
+                    "name": "Symfony Community",
+                    "homepage": "https://symfony.com/contributors"
+                }
+            ],
+            "description": "Helps sending emails",
+            "homepage": "https://symfony.com",
+            "support": {
+                "source": "https://github.com/symfony/mailer/tree/v5.2.4"
+            },
+            "funding": [
+                {
+                    "url": "https://symfony.com/sponsor",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://github.com/fabpot",
+                    "type": "github"
+                },
+                {
+                    "url": "https://tidelift.com/funding/github/packagist/symfony/symfony",
+                    "type": "tidelift"
+                }
+            ],
+            "time": "2021-02-22T15:48:39+00:00"
+        },
+        {
             "name": "symfony/maker-bundle",
             "version": "v1.29.1",
             "source": {
@@ -5369,16 +5593,16 @@
         },
         {
             "name": "symfony/security-bundle",
-            "version": "v5.2.3",
+            "version": "v5.2.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/security-bundle.git",
-                "reference": "51854aa28585d196e60519271338aecad86f95f5"
+                "reference": "ec3162de6b75df14fffb9f60c1ae1051ae46037e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/security-bundle/zipball/51854aa28585d196e60519271338aecad86f95f5",
-                "reference": "51854aa28585d196e60519271338aecad86f95f5",
+                "url": "https://api.github.com/repos/symfony/security-bundle/zipball/ec3162de6b75df14fffb9f60c1ae1051ae46037e",
+                "reference": "ec3162de6b75df14fffb9f60c1ae1051ae46037e",
                 "shasum": ""
             },
             "require": {
@@ -5448,7 +5672,7 @@
             "description": "Provides a tight integration of the Security component into the Symfony full-stack framework",
             "homepage": "https://symfony.com",
             "support": {
-                "source": "https://github.com/symfony/security-bundle/tree/v5.2.3"
+                "source": "https://github.com/symfony/security-bundle/tree/v5.2.4"
             },
             "funding": [
                 {
@@ -5464,7 +5688,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2021-01-27T10:15:41+00:00"
+            "time": "2021-02-04T12:00:01+00:00"
         },
         {
             "name": "symfony/security-core",
@@ -6101,6 +6325,86 @@
                 }
             ],
             "time": "2021-01-25T15:14:59+00:00"
+        },
+        {
+            "name": "symfony/swiftmailer-bundle",
+            "version": "v3.5.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symfony/swiftmailer-bundle.git",
+                "reference": "6b72355549f02823a2209180f9c035e46ca3f178"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/symfony/swiftmailer-bundle/zipball/6b72355549f02823a2209180f9c035e46ca3f178",
+                "reference": "6b72355549f02823a2209180f9c035e46ca3f178",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.1",
+                "swiftmailer/swiftmailer": "^6.1.3",
+                "symfony/config": "^4.4|^5.0",
+                "symfony/dependency-injection": "^4.4|^5.0",
+                "symfony/http-kernel": "^4.4|^5.0"
+            },
+            "conflict": {
+                "twig/twig": "<1.41|>=2.0,<2.10"
+            },
+            "require-dev": {
+                "symfony/console": "^4.4|^5.0",
+                "symfony/framework-bundle": "^4.4|^5.0",
+                "symfony/phpunit-bridge": "^4.4|^5.0",
+                "symfony/yaml": "^4.4|^5.0"
+            },
+            "type": "symfony-bundle",
+            "extra": {
+                "branch-alias": {
+                    "dev-main": "3.5-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Symfony\\Bundle\\SwiftmailerBundle\\": ""
+                },
+                "exclude-from-classmap": [
+                    "/Tests/"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Fabien Potencier",
+                    "email": "fabien@symfony.com"
+                },
+                {
+                    "name": "Symfony Community",
+                    "homepage": "http://symfony.com/contributors"
+                }
+            ],
+            "description": "Symfony SwiftmailerBundle",
+            "homepage": "http://symfony.com",
+            "support": {
+                "issues": "https://github.com/symfony/swiftmailer-bundle/issues",
+                "source": "https://github.com/symfony/swiftmailer-bundle/tree/v3.5.2"
+            },
+            "funding": [
+                {
+                    "url": "https://symfony.com/sponsor",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://github.com/fabpot",
+                    "type": "github"
+                },
+                {
+                    "url": "https://tidelift.com/funding/github/packagist/symfony/symfony",
+                    "type": "tidelift"
+                }
+            ],
+            "time": "2021-01-25T17:31:39+00:00"
         },
         {
             "name": "symfony/translation-contracts",
@@ -6810,6 +7114,57 @@
                 }
             ],
             "time": "2021-02-03T04:42:09+00:00"
+        },
+        {
+            "name": "symfonycasts/reset-password-bundle",
+            "version": "v1.5.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/SymfonyCasts/reset-password-bundle.git",
+                "reference": "d0a1af0b7869069d76808e76ae72cbf31b1a6b3f"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/SymfonyCasts/reset-password-bundle/zipball/d0a1af0b7869069d76808e76ae72cbf31b1a6b3f",
+                "reference": "d0a1af0b7869069d76808e76ae72cbf31b1a6b3f",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.2.5",
+                "symfony/config": "^4.4 | ^5.0",
+                "symfony/dependency-injection": "^4.4 | ^5.0",
+                "symfony/deprecation-contracts": "^2.2",
+                "symfony/http-kernel": "^4.4 | ^5.0"
+            },
+            "conflict": {
+                "doctrine/orm": "<2.7",
+                "symfony/framework-bundle": "<4.4",
+                "symfony/http-foundation": "<4.4"
+            },
+            "require-dev": {
+                "doctrine/doctrine-bundle": "^2.0.3",
+                "doctrine/orm": "^2.7",
+                "friendsofphp/php-cs-fixer": "^2.17",
+                "symfony/framework-bundle": "^4.4 | ^5.0",
+                "symfony/phpunit-bridge": "^5.0",
+                "vimeo/psalm": "^4.3"
+            },
+            "type": "symfony-bundle",
+            "autoload": {
+                "psr-4": {
+                    "SymfonyCasts\\Bundle\\ResetPassword\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "Symfony bundle that adds password reset functionality.",
+            "support": {
+                "issues": "https://github.com/SymfonyCasts/reset-password-bundle/issues",
+                "source": "https://github.com/SymfonyCasts/reset-password-bundle/tree/v1.5.0"
+            },
+            "time": "2021-03-04T14:13:03+00:00"
         },
         {
             "name": "twig/extra-bundle",

@@ -1,0 +1,12 @@
+{% extends 'default.html.twig' %}
+
+{% block title %}Reset your password{% endblock %}
+
+{% block main %}
+    <h1>Reset your password</h1>
+
+    {{ form_start(formReset) }}
+        {{ form_row(formReset) }}
+        <button class="btn btn-primary">Reset password</button>
+    {{ form_end(formReset) }}
+{% endblock %}
