@@ -76,7 +76,7 @@ class OutingController extends AbstractController
 
         if ($this->getUser() != $outing->getOrganizer())
         {
-            $this->addFlash('failure', "Vous ne pouvez pas publier des sortie dont vous n'êtes pas l'otganisateur !");
+            $this->addFlash('failure', "Vous ne pouvez pas publier des sortie dont vous n'êtes pas l'organisateur !");
             return $this->redirectToRoute('outing_search');
         }
 
@@ -267,7 +267,7 @@ class OutingController extends AbstractController
             $em->persist($outing);
             $em->flush();
 
-            $this->addFlash("successDesInscription", "Vous êtes bien inscrit(e) à la sortie \" "
+            $this->addFlash("success", "Vous êtes bien inscrit(e) à la sortie \" "
                                 . $outing->getName() . "\" !"   );
 
             return $this->redirectToRoute('outing_details', [
@@ -321,7 +321,7 @@ class OutingController extends AbstractController
             $em->persist($user);
             $em->flush();
 
-            $this->addFlash("successDesInscription", "Vous êtes bien désinscrit(e) de la sortie \" " . $outing->getName() . "\" !"   );
+            $this->addFlash("success", "Vous êtes bien désinscrit(e) de la sortie \" " . $outing->getName() . "\" !"   );
 
             return $this->redirectToRoute('outing_details', [
                 'id'=>$id

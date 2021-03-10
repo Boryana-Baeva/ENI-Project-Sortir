@@ -14,9 +14,9 @@
                 {% endif %}
                 {% if profilePicture is defined %}
                     {% if profilePicture is null %}
-                        <img src="{{ asset('uploads/default_avatar.jpg') }}" width="250">
+                        <img class="mb-3" src="{{ asset('uploads/default_avatar.jpg') }}" width="250">
                     {% else %}
-                        <img src="{{ asset('uploads/'~ profilePicture) }}" width="250">
+                        <img class="mb-3" src="{{ asset('uploads/'~ profilePicture) }}" width="250">
                     {% endif %}
                 {% endif %}
                 <div class="info">
@@ -44,34 +44,11 @@
                         </tr>
                         </tbody>
                     </table>
-                    {#
-                   <div class="mb-2" id="pseudo">
-                       <label class="d-inline"> Pseudo:</label>
-                       <p class="d-inline">{{ user.username }}</p>
-                   </div>
-                    <div class="mb-2" id="prenom">
-                        <label class="d-inline"> Prénom:</label>
-                        <p class="d-inline">{{ user.firstName }}</p>
-                    </div>
-                    <div class="mb-2" id="nom">
-                        <label class="d-inline"> Nom:</label>
-                        <p class="d-inline">{{ user.lastName}}</p>
-                    </div>
-                    <div class="mb-2" id="email">
-                        <label class="d-inline"> Email:</label>
-                        <p class="d-inline">{{ user.email }}</p>
-                    </div>
-                    <div class="mb-2" id="campus">
-                        <label class="d-inline"> Campus:</label>
-                        <p class="d-inline">{{ user.campus.name }}</p>
-                    </div>
-                </div>
-                    #}
 
                 {% if user.id == app.user.id %}
                 <button type="button" class="btn btn-primary"><a href="{{ path('user_modify', {id: user.id}) }}">Modifier</a></button>
                 {% endif %}
-                <button type="button" class="btn btn-secondary"><a href="{{ path('outing_search') }}">Back</a></button>
+                <button type="button" class="btn btn-secondary"><a href="{{ path('outing_search') }}">Annuler</a></button>
             </div>
         </div>
     </div>

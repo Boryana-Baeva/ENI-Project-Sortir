@@ -13,7 +13,6 @@
                 <th class="hiddenMobile" scope="col">Inscrit</th>
                 <th class="hiddenMobile" scope="col">Organisateur</th>
                 <th class="hiddenMobile" scope="col">Actions</th>
-
             </tr>
         </thead>
         <tbody>
@@ -41,10 +40,10 @@
                             {%  if outing.state.label == constant('OPEN', state) %}
 
                                 {% if app.user in outing.participants%}
-                                    <a href="{{ path('outing_unsubscribe', {id: outing.id}) }}">Se désister</a>
+                                    <button class="btn btn-danger"><a href="{{ path('outing_unsubscribe', {id: outing.id}) }}"><i class="far fa-calendar-minus"></i></a></button>
                                 {% else %}
                                     {% if app.user != outing.organizer%}
-                                        <a href="{{ path('outing_subscribe', {id: outing.id}) }}">S'inscrire</a>
+                                        <button class="btn btn-success"><a href="{{ path('outing_subscribe', {id: outing.id}) }}"><i class="far fa-calendar-plus"></i></a></button>
                                     {% else %}
                                         <button class="btn btn-success"><a href="{{ path('outing_modify', {id: outing.id}) }}"><i class="far fa-edit "></i></a></button>
                                         <button class="btn btn-danger"><a href="{{ path('outing_cancel', {id: outing.id }) }}"><i class="far fa-times-circle"></i></a></button>

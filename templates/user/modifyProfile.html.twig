@@ -4,10 +4,54 @@
 
 {% block main%}
 
-    {{ form_start(modifyForm) }}
-    {{ form_widget(modifyForm) }}
-    <button type="submit">Modifier</button>
-    {{ form_end(modifyForm) }}
+<div class="container-fluid h-100 ">
+    <div class="container block">
+        <div class="row border rounded">
+            <div class="monProfil text-center m-md-2">
+                <h1>Modifier Profil</h1>
+                {{ form_start(modifyForm) }}
+                <div class="info">
+                    <table class="table">
+                        <tbody>
+                        <tr>
+                            <td class="col-md-4">{{ form_row(modifyForm.username) }}</td>
+                        </tr>
+                        <tr>
+                            <td class="col-md-12">{{ form_row(modifyForm.firstName) }}</td>
+                        </tr>
+                        <tr>
+                            <td>{{ form_row(modifyForm.lastName) }}</td>
+                        </tr>
+                        <tr>
+                            <td>{{ form_row(modifyForm.phoneNumber) }}</td>
+                        </tr>
+                        <tr>
+                            <td>{{ form_row(modifyForm.email) }}</td>
+                        </tr>
+                        <tr>
+                            <td>{{ form_row(modifyForm.newPassword) }}</td>
+                        </tr>
+
+                        <tr>
+                            <td>{{ form_row(modifyForm.campus) }}</td>
+                        </tr>
+
+                        <tr>
+                            <td>{{ form_row(modifyForm.picture) }}</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <button class="btn btn-info offset-5" type="submit">Modifier</button>
+            <button type="button" class="btn btn-secondary"><a href="{{ path('user_profile', {id: user.id}) }}">Annuler</a></button>
+            {{ form_end(modifyForm) }}
+        </div>
+    </div>
+</div>
+
+
+
     
 
 
