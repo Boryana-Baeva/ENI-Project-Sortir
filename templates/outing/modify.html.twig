@@ -13,10 +13,16 @@
         {{ form_row(modifyForm.place) }}
 
         {{ form_row(modifyForm._token) }}
-        <button class="btn btn-primary" type="submit">Enregistrer</button>
+        <div class="divBoutton">
+            <div class="boutton">
+                <button class="btn btn-primary" type="submit">Enregistrer</button>
+            </div>
         {{ form_rest(modifyForm) }}
         {{ form_end(modifyForm) }}
-        <button class="btn btn-secondary" type="button"><a href="{{ path('outing_details', {id: outing.id}) }}">Annuler</a></button>
+            <div class="boutton">
+                <button class="btn btn-secondary" type="button"><a href="{{ path('outing_details', {id: outing.id}) }}">Annuler</a></button>
+            </div>
+        </div>
     </div>
     {% embed 'place/add.html.twig' %}
     {% endembed %}
