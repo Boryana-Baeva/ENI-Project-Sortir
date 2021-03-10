@@ -10,5 +10,5 @@
 
     <p>If you don't receive an email please check your spam folder or try again</p>
 
-    <a href="{{ path('app_reset_password',{token: }) }}">Réinitialiser son mdp</a>
+    <a href="{{ path('app_reset_password',{token: token}) }}">{{ url('app_reset_password',{token: token}) }}</a>
 {% endblock %}

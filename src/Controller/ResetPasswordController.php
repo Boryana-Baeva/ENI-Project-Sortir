@@ -70,15 +70,17 @@ class ResetPasswordController extends AbstractController
 
            $url = $this->generateUrl('app_reset_password', ['token' => $token]);
 
-           $message = (new \Swift_Message('Réinitialisation de votre mdp'))
+           // Pour envoyer le mail DECOMMENTER LE COMENTAIRE D'EN DESSOUS
+
+          /* $message = (new \Swift_Message('Réinitialisation de votre mdp'))
                ->setFrom('enisortirproject@gmail.com')
                ->setTo($user->getEmail())
                ->setBody($this->renderView('reset_password/email.html.twig', ['url'=>$url]));
            //on envoi l'email
            $mailer->send($message);
-           $this->addFlash('message','un e-mail de réinitialisation de mot de passe vous a été envoyé');
+           $this->addFlash('message','un e-mail de réinitialisation de mot de passe vous a été envoyé');**/
 
-           return $this->redirectToRoute('app_login');
+           return $this->redirectToRoute('app_check_email', ['token'=>$token]);
        }
 
        //on envoie vers la page de demande de l'email
@@ -90,9 +92,9 @@ class ResetPasswordController extends AbstractController
    }
 
     /**
-     * @Route ("/reset/{token}", name="app_reset_password")
+     * @Route ("/check-email/{token}" , name="app_check_email")
      */
-   public function resetPassword($token, Request $request, EntityManagerInterface  $entityManager)
+   public function checkEmail($token, EntityManagerInterface $entityManager)
    {
        $user = $this->getDoctrine()->getRepository(User::class)->findOneBy(['reset_token' => $token]);
 
@@ -100,6 +102,22 @@ class ResetPasswordController extends AbstractController
            $this->addFlash('danger','Token inconnu');
            return $this->redirectToRoute('app_login');
        }
+
+       return $this->render('reset_password/check_email.html.twig', ['token'=>$token]);
+
+   }
+
+    /**
+     * @Route ("/reset/{token}", name="app_reset_password")
+     */
+   public function resetPassword($token, Request $request, EntityManagerInterface  $entityManager)
+   {
+      $user = $this->getDoctrine()->getRepository(User::class)->findOneBy(['reset_token' => $token]);
+
+      /* if (!$user){
+           $this->addFlash('danger','Token inconnu');
+           return $this->redirectToRoute('app_login');
+       }**/
 
        $formReset = $this->createForm(ChangePasswordFormType::class);
 
