@@ -24,7 +24,6 @@ class DashboardController extends AbstractDashboardController
     public function __construct(UserRepository $userRepository, OutingRepository $outingRepository)
     {
         $this->userRepository = $userRepository;
-        $this->userRepository = $userRepository;
         $this->outingRepository= $outingRepository;
     }
 
