@@ -78,6 +78,15 @@
     "doctrine/sql-formatter": {
         "version": "1.1.1"
     },
+    "easycorp/easyadmin-bundle": {
+        "version": "3.0",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "master",
+            "version": "3.0",
+            "ref": "b131e6cbfe1b898a508987851963fff485986285"
+        }
+    },
     "friendsofphp/proxy-manager-lts": {
         "version": "v1.0.3"
     },
@@ -305,6 +314,9 @@
     "symfony/polyfill-php80": {
         "version": "v1.22.1"
     },
+    "symfony/polyfill-uuid": {
+        "version": "v1.22.1"
+    },
     "symfony/profiler-pack": {
         "version": "v1.0.5"
     },
@@ -390,6 +402,19 @@
             "config/packages/test/swiftmailer.yaml"
         ]
     },
+    "symfony/translation": {
+        "version": "3.3",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "master",
+            "version": "3.3",
+            "ref": "2ad9d2545bce8ca1a863e50e92141f0b9d87ffcd"
+        },
+        "files": [
+            "config/packages/translation.yaml",
+            "translations/.gitignore"
+        ]
+    },
     "symfony/translation-contracts": {
         "version": "v2.3.0"
     },
@@ -412,6 +437,9 @@
     },
     "symfony/twig-pack": {
         "version": "v1.0.1"
+    },
+    "symfony/uid": {
+        "version": "v5.2.4"
     },
     "symfony/validator": {
         "version": "4.3",

@@ -1,0 +1,19 @@
+{# @var ea \EasyCorp\Bundle\EasyAdminBundle\Context\AdminContext #}
+{% extends '@EasyAdmin/page/content.html.twig' %}
+
+{% block page_title 'Welcome' %}
+
+{% block page_content %}
+
+    <div class="container">
+        <div class="row">
+            <div class="col-6 alert-info">
+                <span class="display-3">{{ countAllUser ['value']}} users</span>
+            </div>
+            <div class="col-6 alert-light">
+                <span class="display-3">{{ countAllOutings ['value']}} outings</span>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

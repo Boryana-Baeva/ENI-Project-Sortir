@@ -112,4 +112,12 @@ class OutingRepository extends ServiceEntityRepository
         return $query->getQuery()->getResult();
     }
 
+    public function countAllOutings()
+    {
+        $queryBuilder = $this->createQueryBuilder('out');
+        $queryBuilder->select('COUNT(out.id) as value');
+
+        return $queryBuilder->getQuery()->getOneOrNullResult();
+    }
+
 }

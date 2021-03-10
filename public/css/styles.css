@@ -78,21 +78,12 @@ html, body {
     margin-bottom: 0.5rem;
 }
 
-.fa-check {
-    color: greenyellow;
-}
+
 
 .fa-plus {
-    color: greenyellow;
+    color: mediumseagreen;
 }
 
-.fa-times-circle {
-    color: lightslategrey;
-}
-
-.fa-edit {
-    color: cornflowerblue;
-}
 
 
 @media screen and (min-width: 375px ) and (max-width: 668px){

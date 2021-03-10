@@ -34,7 +34,7 @@
                 </td>
                 <td class="hiddenMobile"><a href="{{ path('user_profile', {id: outing.organizer.id}) }}">{{ outing.organizer.username }}</a></td>
                 <td class="hiddenMobile">
-                    <a href="{{ path('outing_details', {id: outing.id}) }}"><i class="fas fa-info-circle"></i></a>
+                    <button class="btn btn-info"><a href="{{ path('outing_details', {id: outing.id}) }}"><i class="fas fa-info-circle"></i></a></button>
 
                     {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
 
@@ -46,13 +46,13 @@
                                     {% if app.user != outing.organizer%}
                                         <a href="{{ path('outing_subscribe', {id: outing.id}) }}">S'inscrire</a>
                                     {% else %}
-                                        <a href="{{ path('outing_modify', {id: outing.id}) }}"><i class="far fa-edit"></i></a>
-                                        <a href="{{ path('outing_cancel', {id: outing.id }) }}"><i class="far fa-times-circle"></i></a>
+                                        <button class="btn btn-success"><a href="{{ path('outing_modify', {id: outing.id}) }}"><i class="far fa-edit "></i></a></button>
+                                        <button class="btn btn-danger"><a href="{{ path('outing_cancel', {id: outing.id }) }}"><i class="far fa-times-circle"></i></a></button>
                                     {% endif %}
                                 {% endif %}
 
                             {%  elseif outing.state.label == constant('CREATED', state) and app.user == outing.organizer%}
-                                <a href="{{ path('outing_publish', {id: outing.id}) }}"><i class="fas fa-plus"></i></a>
+                                <button class="btn btn-light"><a href="{{ path('outing_publish', {id: outing.id}) }}"><i class="fas fa-plus"></i></a></button>
 
                             {%  elseif outing.state.label == constant('CLOSED', state) and outing.entryDeadline > date() %}
                                 <a href="{{ path('outing_unsubscribe', {id: outing.id}) }}">Se désister</a>
