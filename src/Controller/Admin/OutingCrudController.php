@@ -39,7 +39,9 @@ class OutingCrudController extends AbstractCrudController
     {
 
         $cancel = Action::new('cancel', 'annuler')
-            ->linkToRoute('outing_cancel', ['id'=>$this->getParameter('id')]);
+            ->linkToRoute('outing_cancel', function (Outing $outing){
+                return ['id'=> $outing->getId()];
+            });
         return $actions
             ->remove(Crud::PAGE_INDEX, Action::EDIT)
             ->remove(Crud::PAGE_INDEX, Action::DELETE)

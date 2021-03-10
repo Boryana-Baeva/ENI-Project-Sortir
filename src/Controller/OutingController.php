@@ -12,6 +12,7 @@ use App\Form\OutingType;
 use App\Form\PlaceType;
 use App\Form\SearchType;
 use Doctrine\ORM\EntityManagerInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Finder\Exception\AccessDeniedException;
 use Symfony\Component\HttpFoundation\Request;
@@ -336,6 +337,7 @@ class OutingController extends AbstractController
     }
 
     /**
+     *
      * @Route("/outing/cancel/{id}", name="outing_cancel")
      */
     public function cancel($id, EntityManagerInterface $em, Request $request)
@@ -354,7 +356,7 @@ class OutingController extends AbstractController
 
         if ($cancelForm->isSubmitted() && $cancelForm->isValid() )
         {
-            if($outing->getOrganizer()==$this->getUser() && $outing->getStartDateTime() > $today)
+            if($outing->getOrganizer()==$this->getUser() && $outing->getStartDateTime() > $today || $this->isGranted('ROLE_ADMIN'))
             {
                 $stateCanceled = $this->defineState(State::CANCELED, $em);
                 $outing->setState($stateCanceled);
