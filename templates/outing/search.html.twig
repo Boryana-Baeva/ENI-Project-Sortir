@@ -6,19 +6,41 @@
 
 {% block main %}
         {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
-            <div>
+            <div class="welcomeInfo text-right">
                 <div id="dateDuJour">
-                    <h5>Date du jour: {{ "now" | date('d/m/Y') }} </h5>
+                    <p><i class="far fa-calendar-alt"></i> Date du jour: {{ "now" | date('d/m/Y') }} </p>
                 </div>
                 <div id="participant">
-                    <h5>Participant: {{ app.user.username }} </h5>
+                    <p><i class="fas fa-user"></i> Participant: {{ app.user.username }} </p>
                 </div>
             </div>
         {% endif %}
 
         <div class="filters">
             {{ form_start(searchForm) }}
-            {{ form_widget(searchForm) }}
+            <div class="container-fluid bob">
+                <div class="row">
+                    {{ form_row(searchForm.campus,{'attr':{'class':'col-sm-12 offset-md-2'}}) }}
+                    {{ form_row(searchForm.q,{'attr':{'class':'col-sm-12 offset-md-2'}}) }}
+                    <ul class="list-group">
+                        <li class="check">{{ form_row(searchForm.organizer) }}</li>
+                        <li class="check">{{ form_row(searchForm.pastOutings) }}</li>
+                        <li class="check">{{ form_row(searchForm.subscribed) }}</li>
+                        <li class="check">{{ form_row(searchForm.unsubscribed) }}</li>
+                    </ul>
+                    {{ form_row(searchForm.minDate,{'attr':{'class':'col-sm-12'}}) }}
+                    {{ form_row(searchForm.maxDate,{'attr':{'class':'col-sm-12'}}) }}
+                </div>
+            </div>
+
+
+
+
+
+
+
+
+    {#  {{ form_widget(searchForm) }} #}
             <button class="btn btn-success" type="submit">Rechercher</button>
             {{ form_end(searchForm) }}
             </div>

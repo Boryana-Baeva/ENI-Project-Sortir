@@ -1,110 +1,134 @@
 {% extends 'default.html.twig' %}
 
 {% block main %}
-    <h1>Afficher une sortie</h1>
-
-    <div id="showOuting">
-        <div id="nomSortie">
-            <label> Nom de la sortie:</label>
-            <p>{{ outing.name }}</p>
-        </div>
-        <div id="dateHeureSortie">
-            <label> Date et heure de la sortie:</label>
-            <p>{{ outing.startDateTime | date('d/m/Y H:i') }}</p>
-        </div>
-        <div id="dateLimiteInscription">
-            <label> Date limite d'inscription:</label>s
-            <p>{{ outing.entryDeadline | date('d/m/Y') }}</p>
-        </div>
-        <div id="nbPlaces">
-            <label> Nombre de places:</label>
-            <p>{{ outing.maxNumberEntries }}</p>
-        </div>
-        <div id="duree">
-            <label> Durée:</label>
-            <p>{{ outing.duration }}</p> minutes
-        </div>
-        <div id="description">
-            <label> Description et infos:</label>
-            <p>{{ outing.description}}</p>
-        </div>
-        <div id="campus">
-            <label> Campus:</label>
-            <p>{{ outing.campus.name }}</p>
-        </div>
-        <div id="lieu">
-            <label> Lieu:</label>
-            <p>{{ outing.place.name }}</p>
-        </div>
-        <div id="rue">
-            <label> Rue:</label>
-            <p>{{ outing.place.street }}</p>
-        </div>
-        <div id="ville">
-            <label> Ville:</label>
-            <p>{{ outing.place.city.name }}</p>
-        </div>
-        <div id="codePostal">
-            <label> Code postal:</label>
-            <p>{{ outing.place.city.zipCode }}</p>
-        </div>
-        <div id="latitude">
-            <label> Latitude:</label>
-            <p>{{ outing.place.latitude }}</p>
-        </div>
-        <div id="longitude">
-            <label> Longitude:</label>
-            <p>{{ outing.place.longitude }}</p>
-        </div>
-        {% if outing.state.label == 'annulée' %}
-        <div id="state">
-            <label>Etat :</label>
-            <p>{{ outing.state.label }}</p>
-        </div>
-        <div id="motifCancel">
-            <label>Motif :</label>
-            <p>{{ outing.cancelMotif }}</p>
-        </div>
-        {% endif %}
-
-        {% if outing.state.label != 'annulée' %}
-        <!-- Table Participants -->
-        <div id="listParticipants">
-            <h6>Liste des participants inscrits</h6>
-            <table class="table">
-                <thead class="thead-dark">
-                <tr>
-                    <th scope="col">Pseudo</th>
-                    <th scope="col">Nom</th>
-                </tr>
-                </thead>
-                <tbody>
-                {% if outing.participants.count == 0 %}
-                    <tr>
-                        <td>Aucun participant inscrit</td>
-                    </tr>
-                {% else %}
-                    {% for participant in outing.participants %}
-                        <tr>
-                            <td><a href="{{ path('user_profile', {id: participant.id}) }}">{{ participant.username }}</a></td>
-                            <td>{{ participant.firstName }} {{ participant.lastName | upper}}</td>
+<div class="container-fluid h-100">
+    <div class="container block">
+        <div class="row border rounded">
+            <div class="monProfil text-center m-md-2">
+                <h1 class="mb-4">Afficher une sortie</h1>
+                <div class="infoSortie">
+                    <table class="table">
+                        <tbody>
+                        <tr id="nomSortie">
+                            <th scope="row">Nom de la sortie:</th>
+                            <td>{{ outing.name }}</td>
                         </tr>
-                    {% endfor %}
-                {% endif %}
-                </tbody>
-            </table>
-        </div>
+
+                        <tr id="dateHeureSortie">
+                            <th scope="row">Date et heure de la sortie:</th>
+                            <td>{{ outing.startDateTime | date('d/m/Y H:i') }}</td>
+                        </tr>
+
+                        <tr id="nbPlaces">
+                            <th scope="row">Nombre de places:</th>
+                            <td>{{ outing.maxNumberEntries }}</td>
+                        </tr>
+
+                        <tr id="duree">
+                            <th scope="row">Durée:</th>
+                            <td>{{ outing.duration }}</td>
+                        </tr>
+
+                        <tr id="description">
+                            <th scope="row">Date limite d'inscription:</th>
+                            <td>{{ outing.description}}</td>
+                        </tr>
+
+                        <tr id="campus">
+                            <th scope="row">Campus:</th>
+                            <td>{{ outing.campus.name }}</td>
+                        </tr>
+
+                        <tr id="lieu">
+                            <th scope="row">Lieu:</th>
+                            <td>{{ outing.place.name }}</td>
+                        </tr>
+
+                        <tr id="rue">
+                            <th scope="row">Rue:</th>
+                            <td>{{ outing.place.street }}</td>
+                        </tr>
+
+                        <tr id="ville">
+                            <th scope="row">Ville:</th>
+                            <td>{{ outing.place.city.name }}</td>
+                        </tr>
+
+                        <tr id="codePostal">
+                            <th scope="row">Code postal:</th>
+                            <td>{{ outing.place.city.zipCode }}</td>
+                        </tr>
+
+                        <tr id="latitude">
+                            <th scope="row">Latitude:</th>
+                            <td>{{ outing.place.latitude }}</td>
+                        </tr>
+
+                        <tr id="longitude">
+                            <th scope="row">Longitude:</th>
+                            <td>{{ outing.place.longitude }}</td>
+                        </tr>
+
+                        {% if outing.state.label == 'annulée' %}
+                        <tr id="state">
+                            <th scope="row">Etat :</th>
+                            <td>{{ outing.state.label }}</td>
+                        </tr>
+
+                        <tr id="motive">
+                            <th scope="row">Motif :</th>
+                            <td>{{ outing.cancelMotif }}</td>
+                        </tr>
+                        {% endif %}
+
+                        </tbody>
+                    </table>
+                </div>
 
 
-        <!-- Button Modify -->
-        <div class="btn btn-primary">
-            <a href="{{ path('outing_modify', {id: outing.id}) }}">Modifier</a>
+
+
+
+            </div>
+            {% if outing.state.label != 'annulée' %}
+            <!-- Table Participants -->
+            <div id="listParticipants">
+                <h6>Liste des participants inscrits</h6>
+                <table class="table col-md-12">
+                    <thead class="thead-dark">
+                    <tr>
+                        <th scope="row">Pseudo</th>
+                        <th scope="row">Nom</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% if outing.participants.count == 0 %}
+                        <tr>
+                            <td>Aucun participant</td>
+                        </tr>
+                    {% else %}
+                        {% for participant in outing.participants %}
+                            <tr>
+                                <td><a href="{{ path('user_profile', {id: participant.id}) }}">{{ participant.username }}</a></td>
+                                <td>{{ participant.firstName }} {{ participant.lastName | upper}}</td>
+                            </tr>
+                        {% endfor %}
+                    {% endif %}
+                    </tbody>
+                </table>
+            </div>
+            <!-- Button Modify -->
+            <div class="btn btn-primary">
+                <a href="{{ path('outing_modify', {id: outing.id}) }}">Modifier</a>
+            </div>
+            {% endif %}
+            <!-- Button Back -->
+            <div class="btn btn-secondary">
+                <a href="{{ path('outing_search') }}">Back</a>
+            </div>
         </div>
-        {% endif %}
-        <!-- Button Back -->
-        <div class="btn btn-secondary">
-            <a href="{{ path('outing_search') }}">Back</a>
-        </div>
+    </div>
+</div>
 
 {% endblock %}
 
