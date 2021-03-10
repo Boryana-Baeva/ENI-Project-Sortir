@@ -118,10 +118,11 @@
                 </table>
             </div>
             <!-- Button Modify -->
-
-            <div class="btn btn-primary offset-5">
-                <a href="{{ path('outing_modify', {id: outing.id}) }}">Modifier</a>
-            </div>
+            {% if app.user == outing.organizer %}
+                <div class="btn btn-primary offset-5">
+                    <a href="{{ path('outing_modify', {id: outing.id}) }}">Modifier</a>
+                </div>
+            {% endif %}
             {% endif %}
             <!-- Button Back -->
             <div class="btn btn-secondary ml-2">
