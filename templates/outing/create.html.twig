@@ -1,8 +1,7 @@
 {% extends 'default.html.twig' %}
 
 {% block main %}
-<div class="container-fluid h-100 ">
-    <div class="container block">
+    <div class="container  modify-block">
         <div class="row border rounded">
             <div class="monProfil text-center m-md-2">
                 <h1>Créer une sortie</h1>
@@ -38,16 +37,21 @@
                     </table>
                 </div>
             </div>
-            {{ form_row(outingForm._token) }}
-            <button class="btn btn-primary" type="submit">Enregistrer</button>
-            {{ form_rest(outingForm) }}
-            {{ form_end(outingForm) }}
-            <button class="btn btn-secondary" type="button"><a href="{{ path('outing_search') }}">Annuler</a></button>
-            {% embed 'place/add.html.twig' %}
-            {% endembed %}
+            <div class="d-inline-flex offset-4 mb-2">
+                <div class="addPlace text-center mr-3">
+                    <h5>Ajouter un Lieu</h5>
+                    {% embed 'place/add.html.twig' %}
+                    {% endembed %}
+                </div>
+                {{ form_row(outingForm._token) }}
+                <button class="btn btn-primary mr-3 ml-3" type="submit">Enregistrer</button>
+                {{ form_rest(outingForm) }}
+                {{ form_end(outingForm) }}
+                <button class="btn btn-secondary ml-3" type="button"><a href="{{ path('outing_search') }}">Retour</a></button>
+
+            </div>
         </div>
     </div>
-</div>
 
 {% endblock %}
 

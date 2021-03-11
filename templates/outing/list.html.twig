@@ -1,5 +1,5 @@
 <!-- Table Outings List -->
-<div id="outingsList">
+<div id="outingsList" class="mt-4">
     <table class="table">
         <thead>
             <tr>
@@ -74,9 +74,10 @@
             {% endfor %}
         </tbody>
     </table>
+    <!-- Button Créer une sortie -->
+    <div id="btn-create" class="btn btn-primary offset-5 hiddenMobile">
+        <a href="{{ path('outing_create') }}">Créer une sortie</a>
+    </div>
 </div>
-<!-- Button Créer une sortie -->
-<div id="btn-create" class="btn btn-primary">
-    <a href="{{ path('outing_create') }}">Créer une sortie</a>
-</div>
+
 

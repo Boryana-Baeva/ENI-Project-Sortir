@@ -11,9 +11,20 @@ html, body {
 
 .block {
     position: relative;
-    top: 25%;
     height: 50%;
+    top: 25%;
 }
+
+.modify-block{
+    padding-top: 15px;
+    margin-bottom: 15px;
+}
+
+.btnModifyPage{
+
+    margin-right: 5px;
+}
+
 
 .monProfil {
     width: 100%;
@@ -92,9 +103,6 @@ html, body {
 
 
 @media screen and (min-width: 375px ) and (max-width: 668px){
-    body{
-        overflow-y: hidden;
-    }
 
     .mobile {
         display: none;
@@ -106,11 +114,12 @@ html, body {
 
 }
 
-@media screen and (min-width: 768px) {
+@media screen and (min-width: 768px)  {
 
     .hiddenDesktop {
         display: none
     }
+
 
 }
 

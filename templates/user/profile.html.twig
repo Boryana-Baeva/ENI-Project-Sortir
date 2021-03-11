@@ -3,8 +3,7 @@
 
 
 
-<div class="container-fluid h-100 ">
-    <div class="container block">
+    <div class="container h-50 block">
         <div class="row border rounded">
             <div class="monProfil text-center m-md-2">
                 {% if app.user == user %}
@@ -45,14 +44,18 @@
                         </tbody>
                     </table>
 
-                {% if user.id == app.user.id %}
-                <button type="button" class="btn btn-primary"><a href="{{ path('user_modify', {id: user.id}) }}">Modifier</a></button>
-                {% endif %}
-                <button type="button" class="btn btn-secondary"><a href="{{ path('outing_search') }}">Annuler</a></button>
+                    <div class="boutons">
+
+                        {% if user.id == app.user.id %}
+                            <button type="button" class="btn btn-primary "><a href="{{ path('user_modify', {id: user.id}) }}">Modifier</a></button>
+                        {% endif %}
+                        <button type="button" class="btn btn-secondary n"><a href="{{ path('outing_search') }}">Retour</a></button>
+
+                    </div>
             </div>
         </div>
     </div>
-</div>
+
 
 {% endblock %}
 {% block title %}{{ parent()}} Profile{% endblock %}

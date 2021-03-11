@@ -2,11 +2,10 @@
 
 {% block main %}
 
-<div class="container-fluid h-100 ">
-    <div class="container block">
+    <div class="container h-75 modify-block">
         <div class="row border rounded">
             <div class="monProfil text-center m-md-2">
-                <h1>modifier une sortie</h1>
+                <h1>Modifier une sortie</h1>
                 {{ form_start(modifyForm) }}
                 <div class="info">
                     <table class="table">
@@ -35,24 +34,29 @@
                         <tr>
                             <td>{{ form_row(modifyForm.place) }}</td>
                         </tr>
+
                         </tbody>
+
                     </table>
+
                 </div>
             </div>
+
             {{ form_row(modifyForm._token) }}
-            <div class="divBoutton">
-                <div class="boutton">
-                    <button class="btn btn-primary" type="submit">Enregistrer</button>
+            <div class=" d-inline-flex offset-4 mb-1">
+                <div class="addPlace text-center mr-3">
+                    <h5>Ajouter un Lieu</h5>
+                    {% embed 'place/add.html.twig' %}
+                    {% endembed %}
                 </div>
+                <button class="btn btn-primary mr-3 ml-3" type="submit">Enregistrer</button>
+
                 {{ form_rest(modifyForm) }}
                 {{ form_end(modifyForm) }}
-                <div class="boutton">
-                    <button class="btn btn-secondary" type="button"><a href="{{ path('outing_details', {id: outing.id}) }}">Annuler</a></button>
-                </div>
-                {% embed 'place/add.html.twig' %}
-                {% endembed %}
+
+                <button class="btn btn-secondary ml-3" type="button"><a href="{{ path('outing_details', {id: outing.id}) }}">Annuler</a></button>
+
             </div>
         </div>
     </div>
-</div>
 {% endblock %}

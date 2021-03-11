@@ -1,8 +1,7 @@
 {% extends 'default.html.twig' %}
 
 {% block main %}
-<div class="container-fluid h-100">
-    <div class="container block">
+    <div class="container h-75 mt-5">
         <div class="row border rounded">
             <div class="monProfil text-center m-md-2">
                 <h1 class="mb-4">Afficher une sortie</h1>
@@ -94,11 +93,11 @@
             <!-- Table Participants -->
             <div id="listParticipants">
                 <h6>Liste des participants inscrits</h6>
-                <table class="table col-md-12">
+                <table class="table col-md-12" >
                     <thead class="thead-dark">
                     <tr>
-                        <th scope="row">Pseudo</th>
-                        <th scope="row">Nom</th>
+                        <th class="hiddenMobile" scope="row">Pseudo</th>
+                        <th>Nom</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -109,28 +108,32 @@
                     {% else %}
                         {% for participant in outing.participants %}
                             <tr>
-                                <td><a href="{{ path('user_profile', {id: participant.id}) }}">{{ participant.username }}</a></td>
+                                <td ><a href="{{ path('user_profile', {id: participant.id}) }}">{{ participant.username }}</a></td>
                                 <td>{{ participant.firstName }} {{ participant.lastName | upper}}</td>
+
                             </tr>
                         {% endfor %}
                     {% endif %}
                     </tbody>
                 </table>
             </div>
-            <!-- Button Modify -->
-            {% if app.user == outing.organizer %}
-                <div class="btn btn-primary offset-5">
-                    <a href="{{ path('outing_modify', {id: outing.id}) }}">Modifier</a>
+
+            <div class="d-inline-flex offset-4 mb-2">
+                <!-- Button Modify -->
+                {% if app.user == outing.organizer %}
+                    <div class="btn btn-primary offset-5 btnModifyPage hiddenMobile">
+                        <a href="{{ path('outing_modify', {id: outing.id}) }}">Modifier</a>
+                    </div>
+                {% endif %}
+                {% endif %}
+                <!-- Button Back -->
+                <div class="btn btn-secondary">
+                    <a href="{{ path('outing_search') }}">Retour</a>
                 </div>
-            {% endif %}
-            {% endif %}
-            <!-- Button Back -->
-            <div class="btn btn-secondary ml-2">
-                <a href="{{ path('outing_search') }}">Annuler</a>
             </div>
+
         </div>
     </div>
-</div>
 
 {% endblock %}
 

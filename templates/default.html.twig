@@ -13,8 +13,8 @@
 <body>
 {% block navbar %}
     <header>
-        <nav id="navbar" class="navbar navbar-expand-sm navbar-light bg-info">
-            <a class="navbar-brand text-white" href="#">Sortir.com</a>
+        <nav id="navbar" class="navbar navbar-expand-sm navbar-light bg-info h-25">
+            <a class="navbar-brand text-white" href="{{ path('outing_search') }}">Sortir.com</a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarMenu">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -23,10 +23,9 @@
                     <li class="nav-item"><a class="nav-link text-white" href="{{ path('outing_search') }}">Accueil</a></li>
                     {% if (is_granted('IS_AUTHENTICATED_REMEMBERED')) %}
                         {% if is_granted('ROLE_ADMIN') %}
-                            <li class="nav-item"><a class="nav-link text-white" href="">Villes</a></li>
-                            <li class="nav-item"><a class="nav-link text-white" href="">Campus</a></li>
+                            <li class="nav-item"><a class="nav-link text-white hiddenMobile" href="{{ path('admin') }}">Administrer</a></li>
                         {% endif %}
-                        <li class="nav-item"><a class="nav-link text-white" href="{{ path('user_profile', {id: app.user.id}) }}">Mon profil</a></li>
+                        <li class="nav-item"><a class="nav-link text-white hiddenMobile" href="{{ path('user_profile', {id: app.user.id}) }}">Mon profil</a></li>
                         <li class="nav-item"><a class="nav-link text-white" href="{{ path('app_logout') }}">Se déconnecter</a></li>
                     {% else %}
                         <li class="nav-item"><a class="nav-link text-white" href="{{ path('app_login') }}">Se connecter</a></li>
@@ -70,7 +69,7 @@
 
 {% endblock %}
 
-<div class="container-fluid m-2">
+<div class="container-fluid h-75">
     {% block main %}
     {% endblock %}
 </div>

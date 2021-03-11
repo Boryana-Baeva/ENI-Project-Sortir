@@ -59,7 +59,7 @@ class ModifyProfileType extends AbstractType
                 'required'=>false
             ])
             ->add('picture', FileType::class, [
-                'label'=>false,
+                'label'=>'Upload avatar',
                 'mapped'=>false,
                 'required'=>false
             ])
