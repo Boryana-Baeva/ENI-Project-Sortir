@@ -38,18 +38,22 @@
                 </div>
             </div>
             <div class="d-inline-flex offset-4 mb-2">
+                <button class="btn btn-primary mr-3 ml-3" type="submit">Enregistrer</button>
+                <button class="btn btn-secondary ml-3" type="button"><a href="{{ path('outing_search') }}">Retour</a></button>
+                {{ form_row(outingForm._token) }}
+                {{ form_rest(outingForm) }}
+            </div>
+                {{ form_end(outingForm) }}
+            <div class="d-inline-flex offset-4 mb-2">
                 <div class="addPlace text-center mr-3">
                     <h5>Ajouter un Lieu</h5>
                     {% embed 'place/add.html.twig' %}
                     {% endembed %}
                 </div>
-                {{ form_row(outingForm._token) }}
-                <button class="btn btn-primary mr-3 ml-3" type="submit">Enregistrer</button>
-                {{ form_rest(outingForm) }}
-                {{ form_end(outingForm) }}
-                <button class="btn btn-secondary ml-3" type="button"><a href="{{ path('outing_search') }}">Retour</a></button>
-
             </div>
+
+
+
         </div>
     </div>
 
