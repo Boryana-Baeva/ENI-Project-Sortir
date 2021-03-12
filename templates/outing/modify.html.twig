@@ -44,16 +44,18 @@
 
             {{ form_row(modifyForm._token) }}
             <div class=" d-inline-flex offset-4 mb-1">
-                <div class="addPlace text-center mr-3">
-                    <h5>Ajouter un Lieu</h5>
-                    {% embed 'place/add.html.twig' %}
-                    {% endembed %}
-                </div>
+
                 <button class="btn btn-primary mr-3 ml-3" type="submit">Enregistrer</button>
 
                 {{ form_rest(modifyForm) }}
                 {{ form_end(modifyForm) }}
-
+                <div class=" d-inline-flex offset-4 mb-1">
+                    <div class="addPlace text-center mr-3">
+                        <h5>Ajouter un Lieu</h5>
+                        {% embed 'place/add.html.twig' %}
+                        {% endembed %}
+                    </div>
+                </div>
                 <button class="btn btn-secondary ml-3" type="button"><a href="{{ path('outing_details', {id: outing.id}) }}">Annuler</a></button>
 
             </div>
